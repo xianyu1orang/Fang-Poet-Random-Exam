@@ -16,13 +16,13 @@
         }
 
         #result_fang {
-            font-size: 30px;
+            font-size: 40px;
             margin-top: 20px;
             text-align: center;
         }
         
         #result_poet {
-            font-size: 24px;
+            font-size: 30px;
             margin-top: 20px;
             text-align: center;
         }
@@ -44,6 +44,26 @@
             width: 150px;
         }
         
+        #clearbutton {
+            height: 33px;
+        }
+        
+        #searchInput {
+            z-index: 1;
+      width: 220px; /* 设置输入框的宽度 */
+      height: 35px; /* 设置输入框的高度 */
+      font-size: 25px; /* 设置输入框的字体大小 */
+    }
+
+    #suggestions {z-index: 8;
+      border: 1px solid #ccc;
+      max-height: 150px;
+      overflow-y: auto;
+      display: none;
+      width: 300px; /* 设置提示框的宽度 */
+      font-size: 25px; /* 设置提示框的字体大小 */
+    }
+        
         #test {
             text-align: center;
         }
@@ -53,7 +73,7 @@
     <br><br><br><br><br><br><br><br>
     <div id="result_fang"></div>
     <div id="result_poet"></div>
-    <button onclick="generateFang()" style="width: 150px; height: 60px;font-size: 25px;">生成方</button>
+    <button onclick="generateFang(-1,-1)" style="width: 150px; height: 60px;font-size: 25px;">生成方</button>
     <br>
     <button onclick="words(1)" style="width: 100px; height: 40px;font-size: 15px;">查看歌诀</button>
 
@@ -93,9 +113,20 @@
         <option value="default">这里是历史记录</option>
     </select>
     
+    <div>
+    <input type="text" placeholder="搜索方歌名" id="searchInput">
+    <button onclick="clearInput()" id="clearbutton">×</button>
+    </div>
+    <div id="suggestions"></div>
+    
+    <div>
     <label>
         <input type="checkbox" id="myFir" checked>一级方
     </label>
+    <button onclick="reschange(1)" id="reslarer">+</button>
+    <button onclick="reschange(0)" id="ressmaer">-</button>
+    </div>
+    
     <!-- 复选框 -->
     <div id = "testDescrive">
         开发者选项
@@ -216,6 +247,12 @@
             }
         });
         
+        
+        var resultFangElement = document.getElementById('result_fang');
+        resultFangElement.style.fontSize =JSON.parse(localStorage.getItem('pixel_fang')?localStorage.getItem('pixel_fang'):"40px");
+        var resultPoetElement = document.getElementById('result_poet');
+        resultPoetElement.style.fontSize =JSON.parse(localStorage.getItem('pixel_poet')?localStorage.getItem('pixel_poet'):"35px");
+        
         function addHis() {//新增历史方歌
     // 获取菜单元素
             var MenuHis = document.getElementById("MenuHis");
@@ -284,7 +321,7 @@
             if(condition) poet.innerHTML = (!poet.innerHTML)?("歌诀：<br>" + processString(array_poet[ranSort][ranNumber]) + ((array_poet[ranSort][ranNumber].charAt(array_poet[ranSort][ranNumber].length -1)!="。")?"。":"")):"";else poet.innerHTML = "";
         }
         
-        function generateFang() {
+        function generateFang(innum,insort) {
             if(!getSelectedValues()) return 0;
 
             var lim_array = [];
@@ -298,9 +335,9 @@
             }
             
             lim_times = Math.floor(Math.random() * lim_array.length);//选的几类方里挑一个，根据方剂数量采用加权平均法
-            ranSort = lim_array[lim_times];
+            ranSort = (insort<0)?lim_array[lim_times]:insort;
             
-            ranNumber = Math.floor(Math.random() * (fir?first[ranSort]:array_fang[ranSort].length));
+            ranNumber = (innum<0)?Math.floor(Math.random() * (fir?first[ranSort]:array_fang[ranSort].length)):innum;
             
             memory_sort[times + 1] = ranSort;
             memory_num[times + 1] = ranNumber;
@@ -351,6 +388,92 @@
             t.innerHTML = (testAsk?(t.innerHTML?s:""):(t.innerHTML?(""):s));
         }
         
+        const searchData=array_fang// 添加更多搜索建议;
+
+        const searchInput = document.getElementById("searchInput");
+    const suggestionsContainer = document.getElementById("suggestions");
+
+    searchInput.addEventListener("input", function() {
+      const userInput = searchInput.value.toLowerCase();
+
+      // 获取所有提示词候选
+      const allSuggestions = searchData.flat();
+      
+      // 过滤出包含用户输入的提示词
+      const matchingSuggestions = allSuggestions.filter(suggestion =>
+        suggestion.toLowerCase().includes(userInput)
+      );
+
+      
+      displaySuggestions(matchingSuggestions);
+    });
+    searchInput.addEventListener("click", function() {
+      const userInput = searchInput.value.toLowerCase();
+
+      // 获取所有提示词候选
+      const allSuggestions = searchData.flat();
+      
+      // 过滤出包含用户输入的提示词
+      const matchingSuggestions = allSuggestions.filter(suggestion =>
+        suggestion.toLowerCase().includes(userInput)
+      );
+      words(0);
+      displaySuggestions(matchingSuggestions);
+    });
+    
+    
+    function displaySuggestions(suggestions) {
+      suggestionsContainer.innerHTML = "";
+
+      if (suggestions.length > 0) {
+        for (let i = 0; i < suggestions.length; i++) {
+          const suggestionElement = document.createElement("div");
+          suggestionElement.textContent = suggestions[i];
+          
+          suggestionElement.addEventListener("click", function() {
+            // 将点击的建议的文本内容设置为userInput的值
+            searchInput.value = suggestions[i];
+            suggestionsContainer.style.display = "none";
+            for (let i = 0; i < array_fang.length; i++) {
+        for (let j = 0; j < array_fang[i].length; j++) {
+          // 检查用户输入是否等于数组中的元素
+          if (searchInput.value === array_fang[i][j]) {
+            generateFang(j,i);words(1);
+            return;  // 如果找到匹配，结束函数
+          }
+        }
+      }
+          });
+
+          suggestionsContainer.appendChild(suggestionElement);
+        }
+
+        suggestionsContainer.style.display = "block";
+      } else {
+        suggestionsContainer.style.display = "none";
+      }
+    }
+
+    // 点击其他地方时隐藏建议框
+    document.addEventListener("click", function(event) {
+      if (event.target !== searchInput) {
+        suggestionsContainer.style.display = "none";
+      }
+    });
+    
+    function reschange(ask){
+        
+        var resultFangElement = document.getElementById('result_fang');
+        localStorage.setItem('pixel_fang',JSON.stringify(resultFangElement.style.fontSize = (parseFloat(window.getComputedStyle(resultFangElement).fontSize))+(ask ? (2) : (-2))+"px"));
+        
+        var resultPoetElement = document.getElementById('result_poet');
+        localStorage.setItem('pixel_poet',JSON.stringify(resultPoetElement.style.fontSize = (parseFloat(window.getComputedStyle(resultPoetElement).fontSize))+(ask ? (2) : (-2))+"px"));
+        
+    }
+    
+    function clearInput() {
+        document.getElementById('searchInput').value = '';
+    }
     </script>
 </body>
 </html>
