@@ -28,7 +28,7 @@
         }
         
         #author {
-            font-size: 12px;
+            font-size: 30px;
             margin-top: 20px;
             text-align: center;
         }
@@ -46,6 +46,11 @@
         
         #clearbutton {
             height: 33px;
+        }
+
+        img {
+            width: 100px;
+            height: 70px;
         }
         
         #searchInput {
@@ -135,12 +140,14 @@
     <div id = "test"></div>
     
     <div id ="author">
-        <br><br><br><br>
-        powered by：咸鱼dr猩猩<br>
-        此算法采用不放回的伪随机，目前录入一类方剂。
+        <br><br>
+        Powered by：
+        <a href="https://github.com/xianyu1orang/TCM-tools" target="_blank">
+            <img src="https://logos-world.net/wp-content/uploads/2020/11/GitHub-Emblem.png">
+        </a><br>
         <br>
         
-    </div>
+    </div>    
     
     <script>
         const len = document.getElementById('optionsDropdown').options.length-1;//有几个选项
