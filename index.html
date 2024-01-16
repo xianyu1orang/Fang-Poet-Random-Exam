@@ -1,486 +1,502 @@
 <!DOCTYPE html>
 <!––备注日志：请在数组里写入方，程序已对录入格式做了优化，可以自动换行，替换英文标点。––>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>随机方检查</title>
-    <style>
-        body {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-            flex-direction: column;
-        }
+    <html lang="en">
 
-        #result_fang {
-            font-size: 40px;
-            margin-top: 20px;
-            text-align: center;
-        }
-        
-        #result_poet {
-            font-size: 30px;
-            margin-top: 20px;
-            text-align: center;
-        }
-        
-        #author {
-            font-size: 30px;
-            margin-top: 20px;
-            text-align: center;
-        }
-        
-        #optionsContainer {
-            display: flex;
-            align-items: center;
-            font-size: 1em;
-        }
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>随机方检查</title>
+        <style>
+            body {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 100vh;
+                margin: 0;
+                flex-direction: column;
+            }
 
-        #optionsDropdown {
-            height: 3em;
-            width: 150px;
-        }
-        
-        #clearbutton {
-            height: 33px;
-        }
+            #result_fang {
+                font-size: 40px;
+                margin-top: 20px;
+                text-align: center;
+            }
 
-        img {
-            width: 100px;
-            height: 70px;
-        }
-        
-        #searchInput {
-            z-index: 1;
-      width: 220px; /* 设置输入框的宽度 */
-      height: 35px; /* 设置输入框的高度 */
-      font-size: 25px; /* 设置输入框的字体大小 */
-    }
+            #result_poet {
+                font-size: 30px;
+                margin-top: 20px;
+                text-align: center;
+            }
 
-    #suggestions {z-index: 8;
-      border: 1px solid #ccc;
-      max-height: 150px;
-      overflow-y: auto;
-      display: none;
-      width: 300px; /* 设置提示框的宽度 */
-      font-size: 25px; /* 设置提示框的字体大小 */
-    }
-        
-        #test {
-            text-align: center;
-        }
-    </style>
-</head>
-<body>
-    <br><br><br><br><br><br><br><br>
-    <div id="result_fang"></div>
-    <div id="result_poet"></div>
-    <button onclick="generateFang(-1,-1)" style="width: 150px; height: 60px;font-size: 25px;">生成方</button>
-    <br>
-    <button onclick="words(1)" style="width: 100px; height: 40px;font-size: 15px;">查看歌诀</button>
+            #author {
+                font-size: 30px;
+                margin-top: 20px;
+                text-align: center;
+            }
 
-    <div id="optionsContainer">
-    <span>方剂类型：</span>
-    <form id="myForm">
-        <select id="optionsDropdown" multiple required>
-            <option value="all"required>所有方</option>
-            <option value=0>解表剂</option>
-            <option value=1>泻下剂</option>
-            <option value=2>和解剂</option>
-            <option value=3>清热剂</option>
-            <option value=4>温里剂</option>
-            <option value=5>补益剂</option>
-            <option value=6>固涩剂</option>
-            <option value=7>安神剂</option>
-            <option value=8>开窍剂</option>
-            <option value=9>理气剂</option>
-            <option value=10>理血剂</option>
-            <option value=11>治风剂</option>
-            <option value=12>治燥剂</option>
-            <option value=13>祛湿剂</option>
-            <option value=14>祛痰剂</option>
-            <option value=15>消食剂</option>
-            <option value=16>驱虫剂</option>
-            <option value=17>涌吐剂</option>
-            <option value=18>外伤剂</option>
-            <option value=19>重点四十首</option>
-        </select>
-    </form>
-    </div>
-    
-    <select id="MenuSort" onchange="handleSort()" style="width: 150px; height: 40px;font-size: 15px;align-items: center;"><option value="default">所属目录
-    </select>
-    
-    <select id="MenuHis" onchange="handleHis()" style="width: 150px; height: 40px;font-size: 15px;align-items: center;">
-        <option value="default">这里是历史记录</option>
-    </select>
-    
-    <div>
-    <input type="text" placeholder="搜索方歌名" id="searchInput">
-    <button onclick="clearInput()" id="clearbutton">×</button>
-    </div>
-    <div id="suggestions"></div>
-    
-    <div>
-    <label>
-        <input type="checkbox" id="myFir" checked>一级方
-    </label>
-    <button onclick="reschange(1)" id="reslarer">+</button>
-    <button onclick="reschange(0)" id="ressmaer">-</button>
-    </div>
-    
-    <!-- 复选框 -->
-    <div id = "testDescrive">
-        开发者选项
-        <button onclick="showTest(0)">▼</button>
-    </div>
-    <div id = "test"></div>
-    
-    <div id ="author">
-        <br><br>
-        Powered by：
-        <a href="https://github.com/xianyu1orang/TCM-tools" target="_blank">
-            <img src="https://logos-world.net/wp-content/uploads/2020/11/GitHub-Emblem.png">
-        </a><br>
+            #optionsContainer {
+                display: flex;
+                align-items: center;
+                font-size: 1em;
+            }
+
+            #optionsDropdown {
+                height: 3em;
+                width: 150px;
+            }
+
+            #clearbutton {
+                height: 33px;
+            }
+
+            img {
+                width: 100px;
+                height: 70px;
+            }
+
+            #searchInput {
+                z-index: 1;
+                width: 220px;
+                /* 设置输入框的宽度 */
+                height: 35px;
+                /* 设置输入框的高度 */
+                font-size: 25px;
+                /* 设置输入框的字体大小 */
+            }
+
+            #suggestions {
+                z-index: 8;
+                border: 1px solid #ccc;
+                max-height: 150px;
+                overflow-y: auto;
+                display: none;
+                width: 300px;
+                /* 设置提示框的宽度 */
+                font-size: 25px;
+                /* 设置提示框的字体大小 */
+            }
+
+            #test {
+                text-align: center;
+            }
+        </style>
+    </head>
+
+    <body>
+        <br><br><br><br><br><br><br><br>
+        <div id="result_fang"></div>
+        <div id="result_poet"></div>
+        <button onclick="generateFang(-1,-1)" style="width: 150px; height: 60px;font-size: 25px;">生成方</button>
         <br>
-        
-    </div>    
-    
-    <script>
-        const len = document.getElementById('optionsDropdown').options.length-1;//有几个选项
-        var times = 0;
-        var ranSort = 0;//种类随机
-        var ranNumber = 0;//数字随机
-        var ranArray = [];//记录随机数组范围
-        var lengthArray = 0;//记录选择了几个选项
-        var times = 0;//记录生成次数
-        var all = 0;//是否是所有方独选
-        
-        var memory_sort = [];
-        var memory_num = [];//记录随机方
-        var show_times = 0;//显示次数
-        
-        var array_fang = [
-            ["麻黄汤","桂枝汤","小青龙汤","败毒散","桑菊饮","银翘散","麻杏甘石汤","止嗽散","香苏散","正柴胡饮","柴葛解肌汤","葱豉桔梗汤","参饮苏","再造散","麻黄附子细辛汤","加减葳蕤汤","葱白七味饮","升麻葛根汤"],
-            ["大承气汤","大黄牡丹汤","温脾汤","麻子仁丸","济川煎"],
-            ["小柴胡汤","大柴胡汤","蒿芩清胆汤","四逆散","逍遥散","半夏泻心汤","防风通圣散"],
-            ["白虎汤","竹叶石膏汤","清营汤","清瘟败毒饮","凉膈散","仙方活命饮","龙胆泄心汤","苇茎汤","清胃散","葛根芩连汤","芍药汤","白头翁汤","清暑益气汤","香苏散"],
-            ["理中丸","小建中汤","吴茱萸汤","四逆汤","回阳救急汤","暖肝煎","阳和汤"],
-            ["四君子汤","参苓白术汤","补中益气汤","生脉散","人参蛤蚧汤","四物汤","归脾汤","六味地黄汤","一贯煎","肾气丸","地黄饮子"],
-            ["牡蛎散","真人养脏汤","四神汤","桃花汤","桑螵蛸散","固冲汤","固经汤","易黄汤"],
-            ["朱砂安神丸","天王补心丹","酸枣仁汤"],
-            ["安宫牛黄丸","苏合香丸"],
-            ["越鞠丸","半夏厚朴汤","苏子降气汤","定喘汤","旋覆代赭汤"],
-            ["桃核承气汤","血府逐瘀汤","补阳还五汤","复元活血汤","温经汤","生化汤","桂枝茯苓丸","咳血方","黄龙汤","黄土汤"],
-            ["川芎茶调散","大秦艽汤","羚角钩藤汤","镇肝熄风汤","天麻钩藤饮"],
-            ["清燥救肺汤","养阴润肺汤"],
-            ["平胃散","藿香正气散","茵陈蒿汤","八正散","五苓散","真武汤","实脾汤","独活寄生汤"],
-            ["二陈汤","温胆汤","清气化痰汤","半夏白术天麻汤"],
-            ["保和丸","健脾丸"],
-            ["乌梅丸"],
-            ["瓜蒂散"],
-            ["透脓散"],
-            ["小青龙汤"]
-        ];
-        
-        var array_poet = [
-            ["麻黄汤中用桂枝，杏仁甘草四般施，发热恶寒头项痛，喘而无汗服之宜。","桂枝汤治太阳风，芍药甘草姜枣同，解肌发表调营卫，伤寒有汗此为功。","小青龙汤治水气，外寒里饮咳喘慰，姜桂麻黄芍药甘，细辛半夏兼五味","人参败毒茯苓草，羌独柴前桔枳芎，薄荷少许姜三片，时行感冒有奇功","桑菊饮用桔杏翘，芦根甘草薄荷饶，清疏肺卫轻宣剂，风温咳嗽服之消","银翘散主上焦疴，竹叶荆牛豉薄荷，甘桔芦根凉解法，风温初起此方良","伤寒麻杏石甘汤，喘而汗出法度良，辛凉宣泄能清肺，定喘除热效力彰。","止嗽散用百部菀，白前桔草荆陈研，宣肺疏风止咳痰，姜汤调服不必煎","香苏散内草陈皮，外感风寒气滞宜；寒热头痛胸脘闷，解表又能疏气机。","正柴胡饮平散方，芍药防风陈草姜；轻疏风邪解热痛，表寒轻症服之康","陶氏柴葛解肌汤，邪在三阳热势张；芩芍秸甘羌活芷，石膏大枣与生姜。","葱鼓桔梗翘薄荷，山栀竹叶加甘草，热邪束肺嗽咽痛，风温初起此方疗。","参苏饮内用陈皮，枳壳前胡半夏齐，干葛木香甘桔茯，气虚外感最相宜。","再造散用参附芪，桂甘羌防芎芍齐，再加细辛姜枣煮，阳虚寒闭最相宜。","麻黄附子细辛汤，发表温经两法彰；若去细辛加炙草，少阴反热亦能康。","加减葳蕤用白薇，豆豉薄荷干桔随，再入姜枣与葱白，滋阴发汗功可慰。","葱白七味外台方，新鼓葛根与生姜，麦冬生地千扬水，血虚外感最相当。","阎氏升麻葛根汤，芍药甘草合成方，麻疹初期发不透，解肌透疹此为良。"],
-            ["大承气汤用芒硝,枳实厚朴大黄饶,救阴泻热功偏擅,急下阳明有数条","金匮大黄牡丹汤，桃仁芒硝瓜子襄;肠痈初起腹按痛，尚未成脓服之安。","温脾参附与干姜，甘草当归硝大黄,寒热并行治寒积,脐腹绞结痛可安。","麻子仁丸治脾约，大黄枳朴杏仁芍，胃热津枯便难解，润肠通便功效高。","济川归膝肉苁蓉，泽泻升麻枳壳从，肾虚津亏肠中燥　寓通于补法堪宗","大陷胸汤用硝黄，甘遂为末共成方;专治实热结胸证，泻热逐水效非常。加入杏仁与荸劳，和丸更治项背强。","大黄附子细辛汤，散寒止痛功效良；冷积久痢因成实，功专温下妙非常。","三物备急巴豆研，干姜大黄不需煎，卒然腹痛因寒积，速投此方急救先。","五仁柏仁杏仁桃，松仁陈皮郁李饶，炼蜜为丸米饮下，润肠通便此方效。","黄龙汤中大承气，加入参归甘桔比；生姜红枣同煎服，功补兼施通便秘。","新加黄龙用海参，玄麦生地硝黄呈,参归姜草扶正气，攻补兼施法可尊。","增液承气玄地冬，更加硝黄力量雄，热结阴亏肠燥结，滋阴泻下法可宗。","十枣逐水效堪夸,大戟甘遂与芫花;控涎丹用遂戟芥，荸劳大枣亦可嘉。","舟车黑丑及大黄，遂戟芫花槟木香，表皮陈皮轻粉入，逐水消肿力量强。"],
-            ["小柴胡汤和解功,半夏人参甘草从,更加黄芩生姜枣,少阳为病此方宗","大柴胡汤用大黄，枳实芩夏白芍将，煎加姜枣表兼里，妙法内攻并外攘。","嵩芩清胆碧玉需，陈夏茯苓枳竹茹，热重寒轻痰挟湿，胸痞呕恶总能除","四逆散用柴胡，芍药枳实甘草须，此是阳郁成厥逆，疏肝理脾奏效奇","逍遥散用归芍柴，苓术甘草姜薄偕，疏肝养血兼理脾，丹栀加入热能排","半夏泻心黄连芩，干姜甘草与人参，大枣和之治虚痞，法在降阳而和阴","防风通圣大黄硝，荆芥麻黄栀芍翘，甘桔归芎滑石膏，薄荷芩术力偏饶，表里交攻阳偏盛，外科疡毒总能消。","达原草果槟厚朴，知母黄苓芍甘佐；辟秽化浊达膜原，邪伏膜原寒热作。","痛泻要方用陈皮，术芍防风共成剂，肠鸣泄泻又腹痛，治在泻肝与实脾。","葛根黄芩黄连汤，甘草四般治二阳，解表清里兼和胃，哄汗下利保安康。","疏凿饮子泻水方，木通泽泻与槟榔,羌芜苓腹椒商陆，赤豆姜皮退肿良。"],
-            ["白虎膏知甘草粳，气分大热此方清，热渴汗出脉洪大，加入人参气津生","竹叶石膏参麦冬，半夏粳米甘草从；清补气津又和胃，余热耗伤气津用。","清营汤是鞠通方，热入心包营血上，角地银翘玄连竹，丹麦清热佐之良。","清瘟败毒地连苓，丹石栀甘竹叶寻，犀角玄翘知芍桔，清热解毒亦滋阴。","凉膈硝黄栀子翘,黄芩甘草薄荷饶；再加竹叶调蜂蜜，上中郁热服之消","仙方活命金银花，防芷归陈草芍加，贝母天花兼乳没，穿山皂刺酒煎佳，一切痈毒能溃散，溃后忌服用勿差。","龙胆栀芩酒拌炒，笔木通泽泻车柴草;当归生地益阴血，肝胆实火湿热消。","苇茎瓜瓣苡桃仁，清肺化痰逐瘀能；热毒痰瘀致肺痈，脓成未成均胜任。","清胃散中当归连，生地丹皮升麻全，或加石膏泻胃火，能消牙痛与牙宣。","葛根芩连甘草伍，用时先将葛根煮，内清肠胃外解表，协热下利喘汗除。","芍药汤中用槟黄，芩连归桂草木香，重在调气兼行血，里急便脓自然康。","白头翁汤治热痢，黄连黄柏佐秦皮,清热解毒并凉血，赤多白少脓血医。","王氏清暑益气汤，暑热气津已两伤，洋参麦斛粳米草，翠衣荷连知竹尝。","香蒂散中扁豆朴，祛暑解表化湿阻,易豆为花加银翘，新加香常署重除。"],
-            ["理中丸主温中阳,人参甘草术干姜,呕利腹痛阴寒盛,再加附子更扶阳","小建中汤君饴糖，方含桂枝加芍汤，温中补虚和缓急，虚劳里急腹痛康。","吴茱萸汤参枣姜，肝胃虚寒此法良，阳明寒呕少阴利，厥阴头痛亦堪尝","四逆汤中附草姜，阳衰寒厥急煎尝，腹痛吐泻脉沉细，急投此方可回阳。","回阳救急用六君，桂附干姜五味群，加麝三厘或胆汁，三阴寒厥建奇勋。","暖肝煎中杞茯归，茴沉乌药合肉桂，下焦虚寒疝气痛，温补肝肾此方推。","阳和汤法解寒凝,贴骨流注鹤膝风,熟地鹿胶姜炭桂,麻黄白芥甘草从"],
-            ["四君子汤中和义 ,参术茯苓甘草比, 益以夏陈名六君, 祛痰补气阳虚饵, 除却半夏名异功, 或加香砂胃寒使。","参苓白术扁豆陈，莲草山药砂苡仁；桔梗上浮兼保肺，枣汤调服益脾神。","补中益气芪参术，炙草升柴归陈助；清阳下陷能升举，气虚发热甘温除。","生脉麦味与人参,保肺清心治暑淫;气少汗多兼口渴，病危脉绝急煎斟。","人参蛤蚧益肺肾，证见痰热咳与喘，桑皮贝母茯苓杏，知母甘草同加餐。","四物熟地归芍芎，补血调血此方宗；营血虚滞诸多证，加减运用贵变通。","归脾汤用术参芪，归草茯神远志齐；酸枣术香龙眼肉，煎加姜枣益心脾。","六味地黄山药萸,泽泻苓丹三泻侣;三阴并补重滋肾,肾阴不足效可居;滋阴降火知柏需，养肝明目加杞菊；都气五味纳肾气，滋补肺肾麦味续。","一贯煎中生地黄,沙参归杞麦冬藏;少佐川楝泄肝气，阴虚胁痛此方良。","金匮肾气治肾虚，熟地淮药及山萸，丹皮苓泽加桂附，引火归元热下趋","地黄饮子山茱斛，麦味菖蒲远志茯;<br>苁蓉桂附巴戟天，少入薄荷枣姜服。"],
-            ["牡蛎散内用黄芪，麻黄根与小麦齐，益气固表又敛阴，体虚自汗盗汗宜。","真人养脏木香诃，当归肉蔻与粟壳，术芍参桂甘草共，脱肛久痢服之瘘。","四神故纸与吴萸，肉蔻五味四般齐；大枣生姜同煎合，五更肾泄最相宜。","桃花汤中赤石脂,千姜粳米三般施,虚寒下痢便脓血，温涩止痢服之宜。","桑螵蛸散龙龟甲，参归茯神菖远加，调补心肾又涩精，心肾两虚尿频佳。","固冲芪术山萸芍，龙牡倍榈茜海螵;益气健脾固摄血,脾虚冲脉不固疗。","固经龟板芍药苓，黄柏椿根香附应；阴虚血热经量多，滋阴清热能固经。","易黄山药与芡实，白果黄柏车前子;固肾清热又祛湿，肾虚湿热带下医。"],
-            ["朱砂安神东垣方，归草黄连生地黄,心悸不寐心烦乱，清热养阴神自安。","天王补心柏枣仁，二冬生地当归身，三参桔梗朱砂味，远志茯苓共养神。","酸枣仁汤治失眠，川芎知草茯苓煎，养血除烦清虚热，安然入睡梦乡甜。"],
-            ["安宫牛黄开窍方,苓连栀郁朱雄黄，犀角珍珠冰麝箔，热闭心包功用良。","苏合香丸麝息香,木丁熏陆荜檀香，牛冰术沉诃香附，中恶急救莫彷徨。"],
-            ["越鞠丸治六郁证，气血痰火食湿困，芎术香附栀神曲，气畅郁舒痛闷伸。","半夏厚朴痰气疏，茯苓生姜共紫苏，加枣同煎名四七，痰凝气滞皆能除。","苏子降气半夏归，前胡桂朴姜草随;<br>上盛下虚痰嗽喘，或加沉香去肉桂。","定喘白果与麻黄，款冬半夏白皮桑，苏杏黄芩兼甘草，外寒痰热喘哮尝。","旋覆代赭汤人参，半夏甘草姜枣临，重以镇逆咸软痞，痞硬噫气最能禁。"],
-            ["桃仁承气五般施，甘草硝黄并桂枝，瘀热互结小腹胀，蓄血如狂最相宜。","血府当归生地桃，红花枳壳膝芎饶，通窍全凭好麝香，桃红大枣老葱姜；川芎黄酒赤芍药，表里通经第一方。膈下逐瘀桃牡丹，赤芍乌药元胡甘；归芎灵脂红花壳，香附开郁血亦安。少腹茴香与炒姜，元胡灵脂没芎当；蒲黄官桂赤芍药，调经种子第一方。身痛逐瘀膝地龙，香附羌秦草归芎；黄芪苍柏量加减，要紧五灵桃没红。","补阳还五赤芍芎，归尾通经佐地龙，四两黄芪为主药，益气活血效力宏。","复元活血汤柴胡,花粉当归山甲俱,桃仁红花大黄草,跌打损伤酒煎服。","温经归芍桂萸芎，姜夏丹皮及麦冬,参草扶脾胶益血，调经重在暖胞宫。","生化汤宜产后尝，归芎桃草酒炮姜，恶露不行少腹痛，化瘀温经功效彰。","金匮桂枝茯苓丸，芍药桃仁和牡丹，等分为末蜜丸服,活血化瘀瘤块散。","咳血方中诃子收，瓜蒌海粉山栀投，青黛蜜丸口噙化，咳嗽痰血服之瘆。","黄龙汤枳朴硝黄，参归甘桔枣生姜，阳明腑实气血弱，攻补兼施效力强。","黄土汤用苓地黄，术附阿胶甘草尝，温阳健脾能摄血，便血崩漏服之康。"],
-            ["川芎茶调散荆防，辛芷薄荷甘草羌，目昏鼻塞风攻上，正偏头痛悉能康。","大秦艽汤风热搏,细辛白芷羌独活，防风黄芩生石膏，八珍去参经络复。","羚角钩藤汤法凉，桑菊茯神鲜地黄，贝草竹茹同芍药，肝风内动急煎尝。","镇肝熄风芍天冬，玄参牡蛎赭菌供,麦龟膝草龙川楝，肝风内动有奇功。","天麻钩藤饮熄风,茯神牛膝桑寄生,黄芩栀子石决明,杜仲益母夜交藤。"],
-            ["清燥救肺参草杷，石膏胶杏麦胡麻，经霜收下冬桑叶，清燥润肺效可夸","养阴清肺是妙方，玄参草芍麦地黄，薄荷贝母丹皮入，时疫白喉急煎尝。"],
-            ["平胃散内君苍术，甘草姜枣破陈煮；燥湿运脾又和胃，湿滞脾胃胀满除。","藿香正气腹皮苏，平胃散中白术桔;神曲白芷和茯苓，风寒暑湿并能除。","茵陈蒿汤大黄栀，瘀热阳黄此方施；便难尿赤腹胀满，功在清热与利湿。","八正木通与车前，扁蓄大黄栀滑研；草梢瞿麦灯心草，湿热诸淋宜服煎。","五苓散治太阳腑，白术泽泻猪苓茯，桂枝化气兼解表，小便通利水饮逐。","真武附苓术芍姜，温阳利水壮肾阳；脾肾阳虚水气停,腹痛悸眩瞤动康。","实脾温阳行利水，干姜附苓术草随;木瓜香槟朴草果，阳虚水肿腹胀崇.","独活寄生秦防辛，四物四君去白术；桂枝杜仲与牛膝，顽痹风寒湿是因。"],
-            ["二陈汤用半夏陈，苓草梅姜一并存，燥湿祛痰兼理气，湿痰为患此方珍。","温胆夏茹枳陈助，佐以茯草姜枣煮；理气化痰利胆胃，胆郁痰扰诸症除。","清气化痰胆星蒌，夏芩杏陈枳实投。茯苓姜汁糊丸服，气顺火清痰热疗。","半夏白术天麻汤，苓草橘红枣生姜，眩晕头痛风痰盛，痰化风熄复正常。"],
-            ["保和神曲与山楂，苓夏陈翘菔子加,炊饼为丸白汤下,消食和胃效堪夸。","健脾陈皮四君子，肉蔻香连合砂仁,楂肉山药曲麦炒,消补兼施此方寻。"],
-            ["乌梅丸用细辛桂,黄连黄柏及当归，人参椒姜加附子,清上温下又安蛔。"],
-            ["瓜蒂散中赤小豆,豆豉汁调酸苦凑，逐邪涌吐功最捷，胸脘痰食服之瘆。"],
-            ["透脓散治毒成脓，芪归山甲皂刺芎，程氏又加银蒡芷，更能速奏溃破功。"],
-            [""]
+        <button onclick="words(1)" style="width: 100px; height: 40px;font-size: 15px;">查看歌诀</button>
+
+        <div id="optionsContainer">
+            <span>方剂类型：</span>
+            <form id="myForm">
+                <select id="optionsDropdown" multiple required>
+                    <option value="all" required>所有方</option>
+                    <option value=0>解表剂</option>
+                    <option value=1>泻下剂</option>
+                    <option value=2>和解剂</option>
+                    <option value=3>清热剂</option>
+                    <option value=4>温里剂</option>
+                    <option value=5>补益剂</option>
+                    <option value=6>固涩剂</option>
+                    <option value=7>安神剂</option>
+                    <option value=8>开窍剂</option>
+                    <option value=9>理气剂</option>
+                    <option value=10>理血剂</option>
+                    <option value=11>治风剂</option>
+                    <option value=12>治燥剂</option>
+                    <option value=13>祛湿剂</option>
+                    <option value=14>祛痰剂</option>
+                    <option value=15>消食剂</option>
+                    <option value=16>驱虫剂</option>
+                    <option value=17>涌吐剂</option>
+                    <option value=18>外伤剂</option>
+                    <option value=19>重点四十首</option>
+                </select>
+            </form>
+        </div>
+
+        <select id="MenuSort" onchange="handleSort()"
+            style="width: 150px; height: 40px;font-size: 15px;align-items: center;">
+            <option value="default">所属目录
+        </select>
+
+        <select id="MenuHis" onchange="handleHis()"
+            style="width: 150px; height: 40px;font-size: 15px;align-items: center;">
+            <option value="default">这里是历史记录</option>
+        </select>
+
+        <div>
+            <input type="text" placeholder="搜索方歌名" id="searchInput">
+            <button onclick="sInput()" id="sInput">🔍</button>
+            <button onclick="clearInput()" id="clearbutton">×</button>
+        </div>
+        <div id="suggestions"></div>
+
+        <div>
+            <label>
+                <input type="checkbox" id="myFir" checked>一级方
+            </label>
+            <button onclick="reschange(1)" id="reslarer">+</button>
+            <button onclick="reschange(0)" id="ressmaer">-</button>
+        </div>
+
+        <!-- 复选框 -->
+        <div id="testDescrive">
+            开发者选项
+            <button onclick="showTest(0)">▼</button>
+        </div>
+        <div id="test"></div>
+
+        <div id="author">
+            <br><br>
+            Powered by：
+            <a href="https://github.com/xianyu1orang/TCM-tools" target="_blank">
+                <img src="https://logos-world.net/wp-content/uploads/2020/11/GitHub-Emblem.png">
+            </a><br>
+            <br>
+
+        </div>
+
+
+        <script>
+            const len = document.getElementById('optionsDropdown').options.length - 1;//有几个选项
+            var times = 0;
+            var ranSort = 0;//种类随机
+            var ranNumber = 0;//数字随机
+            var ranArray = [];//记录随机数组范围
+            var lengthArray = 0;//记录选择了几个选项
+            var times = 0;//记录生成次数
+            var all = 0;//是否是所有方独选
+
+            var memory_sort = [];
+            var memory_num = [];//记录随机方
+            var show_times = 0;//显示次数
+
+            var array_fang = [
+                ["麻黄汤", "桂枝汤", "小青龙汤", "败毒散", "桑菊饮", "银翘散", "麻杏甘石汤", "止嗽散", "香苏散", "正柴胡饮", "柴葛解肌汤", "葱豉桔梗汤", "参饮苏", "再造散", "麻黄附子细辛汤", "加减葳蕤汤", "葱白七味饮", "升麻葛根汤"],
+                ["大承气汤", "大黄牡丹汤", "温脾汤", "麻子仁丸", "济川煎"],
+                ["小柴胡汤", "大柴胡汤", "蒿芩清胆汤", "四逆散", "逍遥散", "半夏泻心汤", "防风通圣散"],
+                ["白虎汤", "竹叶石膏汤", "清营汤", "清瘟败毒饮", "凉膈散", "仙方活命饮", "龙胆泄心汤", "苇茎汤", "清胃散", "葛根芩连汤", "芍药汤", "白头翁汤", "清暑益气汤", "香苏散"],
+                ["理中丸", "小建中汤", "吴茱萸汤", "四逆汤", "回阳救急汤", "暖肝煎", "阳和汤"],
+                ["四君子汤", "参苓白术汤", "补中益气汤", "生脉散", "人参蛤蚧汤", "四物汤", "归脾汤", "六味地黄汤", "一贯煎", "肾气丸", "地黄饮子"],
+                ["牡蛎散", "真人养脏汤", "四神汤", "桃花汤", "桑螵蛸散", "固冲汤", "固经汤", "易黄汤"],
+                ["朱砂安神丸", "天王补心丹", "酸枣仁汤"],
+                ["安宫牛黄丸", "苏合香丸"],
+                ["越鞠丸", "半夏厚朴汤", "苏子降气汤", "定喘汤", "旋覆代赭汤"],
+                ["桃核承气汤", "血府逐瘀汤", "补阳还五汤", "复元活血汤", "温经汤", "生化汤", "桂枝茯苓丸", "咳血方", "黄龙汤", "黄土汤"],
+                ["川芎茶调散", "大秦艽汤", "羚角钩藤汤", "镇肝熄风汤", "天麻钩藤饮"],
+                ["清燥救肺汤", "养阴润肺汤"],
+                ["平胃散", "藿香正气散", "茵陈蒿汤", "八正散", "五苓散", "真武汤", "实脾汤", "独活寄生汤"],
+                ["二陈汤", "温胆汤", "清气化痰汤", "半夏白术天麻汤"],
+                ["保和丸", "健脾丸"],
+                ["乌梅丸"],
+                ["瓜蒂散"],
+                ["透脓散"],
+                ["小青龙汤"]
             ];
-        
-        const ffang = [[0,2],[0,5],[0,3],[1,3],[2,1],[2,4],[2,5],[2,6],[3,2],[3,4],[3,8],[3,11],[4,1],[5,1],[5,2],[5,6],[5,7],[5,9],[5,10],[9,0],[9,2],[9,3],[10,0],[10,1],[10,8],[11,0],[11,2],[11,3],[12,0],[12,1],[13,1],[13,6],[14,2],[14,3],[15,0],[15,1],[16,0],[4,5],[18,0],[3,5],[0,5],[0,3]];//重点方
-        const first = [8,5,7,14,7,11,8,3,2,5,10,5,2,8,4,2,1,1,1,ffang.length]
-        
-        //初始化重点方
-        for(i=0;i<len;i++){
-            array_fang[len-1][i] = array_fang[ffang[i][0]][ffang[i][1]];
-        }
-        for(i=0;i<len;i++){
-            array_poet[len-1][i] = array_poet[ffang[i][0]][ffang[i][1]];
-        }
-        
-        //注明方剂类型
-        var array_sort = ["解表剂","泻下剂","和解剂","清热剂","温里剂","补益剂","固涩剂","安神剂","开窍剂","理气剂","理血剂","治风剂","治燥剂","祛湿剂","祛痰剂","祛湿剂","消食剂","驱虫剂","涌吐剂"]
-    
-        // 获取复选框元素
-        var checkboxFir = document.getElementById('myFir');
-        // 初始化一级方选项
-        var fir = false;
-        
-        // 检查本地存储是否有保存的状态
-        const savedCheckboxState = localStorage.getItem('State');
-        // 如果有保存的状态，则设置复选框的状态
-        if (savedCheckboxState) {
-            document.getElementById('myFir').checked = savedCheckboxState === 'true';
-            fir = JSON.parse(localStorage.getItem('State'));
-        }
-        checkboxFir.addEventListener('change', function() {
-    // 记录是否为一级方
-            fir = this.checked;
-            localStorage.setItem('State',JSON.stringify(this.checked));
-            addFang();
-        });
-        
-        //读取本地方剂类型已选项
-        ranArray = JSON.parse(localStorage.getItem('ranArr'));
-        const meSort = document.getElementById("optionsDropdown");
-        const options = meSort.options;options[0].selected = false;
-        ranArray.forEach(value => {
-  // 设置对应值的选项为选中状态
-            const option = meSort.querySelector(`[value="${value}"]`);
-            if (option) {
-               option.selected = true;
+
+            var array_poet = [
+                ["麻黄汤中用桂枝，杏仁甘草四般施，发热恶寒头项痛，喘而无汗服之宜。", "桂枝汤治太阳风，芍药甘草姜枣同，解肌发表调营卫，伤寒有汗此为功。", "小青龙汤治水气，外寒里饮咳喘慰，姜桂麻黄芍药甘，细辛半夏兼五味", "人参败毒茯苓草，羌独柴前桔枳芎，薄荷少许姜三片，时行感冒有奇功", "桑菊饮用桔杏翘，芦根甘草薄荷饶，清疏肺卫轻宣剂，风温咳嗽服之消", "银翘散主上焦疴，竹叶荆牛豉薄荷，甘桔芦根凉解法，风温初起此方良", "伤寒麻杏石甘汤，喘而汗出法度良，辛凉宣泄能清肺，定喘除热效力彰。", "止嗽散用百部菀，白前桔草荆陈研，宣肺疏风止咳痰，姜汤调服不必煎", "香苏散内草陈皮，外感风寒气滞宜；寒热头痛胸脘闷，解表又能疏气机。", "正柴胡饮平散方，芍药防风陈草姜；轻疏风邪解热痛，表寒轻症服之康", "陶氏柴葛解肌汤，邪在三阳热势张；芩芍秸甘羌活芷，石膏大枣与生姜。", "葱鼓桔梗翘薄荷，山栀竹叶加甘草，热邪束肺嗽咽痛，风温初起此方疗。", "参苏饮内用陈皮，枳壳前胡半夏齐，干葛木香甘桔茯，气虚外感最相宜。", "再造散用参附芪，桂甘羌防芎芍齐，再加细辛姜枣煮，阳虚寒闭最相宜。", "麻黄附子细辛汤，发表温经两法彰；若去细辛加炙草，少阴反热亦能康。", "加减葳蕤用白薇，豆豉薄荷干桔随，再入姜枣与葱白，滋阴发汗功可慰。", "葱白七味外台方，新鼓葛根与生姜，麦冬生地千扬水，血虚外感最相当。", "阎氏升麻葛根汤，芍药甘草合成方，麻疹初期发不透，解肌透疹此为良。"],
+                ["大承气汤用芒硝,枳实厚朴大黄饶,救阴泻热功偏擅,急下阳明有数条", "金匮大黄牡丹汤，桃仁芒硝瓜子襄;肠痈初起腹按痛，尚未成脓服之安。", "温脾参附与干姜，甘草当归硝大黄,寒热并行治寒积,脐腹绞结痛可安。", "麻子仁丸治脾约，大黄枳朴杏仁芍，胃热津枯便难解，润肠通便功效高。", "济川归膝肉苁蓉，泽泻升麻枳壳从，肾虚津亏肠中燥　寓通于补法堪宗", "大陷胸汤用硝黄，甘遂为末共成方;专治实热结胸证，泻热逐水效非常。加入杏仁与荸劳，和丸更治项背强。", "大黄附子细辛汤，散寒止痛功效良；冷积久痢因成实，功专温下妙非常。", "三物备急巴豆研，干姜大黄不需煎，卒然腹痛因寒积，速投此方急救先。", "五仁柏仁杏仁桃，松仁陈皮郁李饶，炼蜜为丸米饮下，润肠通便此方效。", "黄龙汤中大承气，加入参归甘桔比；生姜红枣同煎服，功补兼施通便秘。", "新加黄龙用海参，玄麦生地硝黄呈,参归姜草扶正气，攻补兼施法可尊。", "增液承气玄地冬，更加硝黄力量雄，热结阴亏肠燥结，滋阴泻下法可宗。", "十枣逐水效堪夸,大戟甘遂与芫花;控涎丹用遂戟芥，荸劳大枣亦可嘉。", "舟车黑丑及大黄，遂戟芫花槟木香，表皮陈皮轻粉入，逐水消肿力量强。"],
+                ["小柴胡汤和解功,半夏人参甘草从,更加黄芩生姜枣,少阳为病此方宗", "大柴胡汤用大黄，枳实芩夏白芍将，煎加姜枣表兼里，妙法内攻并外攘。", "嵩芩清胆碧玉需，陈夏茯苓枳竹茹，热重寒轻痰挟湿，胸痞呕恶总能除", "四逆散用柴胡，芍药枳实甘草须，此是阳郁成厥逆，疏肝理脾奏效奇", "逍遥散用归芍柴，苓术甘草姜薄偕，疏肝养血兼理脾，丹栀加入热能排", "半夏泻心黄连芩，干姜甘草与人参，大枣和之治虚痞，法在降阳而和阴", "防风通圣大黄硝，荆芥麻黄栀芍翘，甘桔归芎滑石膏，薄荷芩术力偏饶，表里交攻阳偏盛，外科疡毒总能消。", "达原草果槟厚朴，知母黄苓芍甘佐；辟秽化浊达膜原，邪伏膜原寒热作。", "痛泻要方用陈皮，术芍防风共成剂，肠鸣泄泻又腹痛，治在泻肝与实脾。", "葛根黄芩黄连汤，甘草四般治二阳，解表清里兼和胃，哄汗下利保安康。", "疏凿饮子泻水方，木通泽泻与槟榔,羌芜苓腹椒商陆，赤豆姜皮退肿良。"],
+                ["白虎膏知甘草粳，气分大热此方清，热渴汗出脉洪大，加入人参气津生", "竹叶石膏参麦冬，半夏粳米甘草从；清补气津又和胃，余热耗伤气津用。", "清营汤是鞠通方，热入心包营血上，角地银翘玄连竹，丹麦清热佐之良。", "清瘟败毒地连苓，丹石栀甘竹叶寻，犀角玄翘知芍桔，清热解毒亦滋阴。", "凉膈硝黄栀子翘,黄芩甘草薄荷饶；再加竹叶调蜂蜜，上中郁热服之消", "仙方活命金银花，防芷归陈草芍加，贝母天花兼乳没，穿山皂刺酒煎佳，一切痈毒能溃散，溃后忌服用勿差。", "龙胆栀芩酒拌炒，笔木通泽泻车柴草;当归生地益阴血，肝胆实火湿热消。", "苇茎瓜瓣苡桃仁，清肺化痰逐瘀能；热毒痰瘀致肺痈，脓成未成均胜任。", "清胃散中当归连，生地丹皮升麻全，或加石膏泻胃火，能消牙痛与牙宣。", "葛根芩连甘草伍，用时先将葛根煮，内清肠胃外解表，协热下利喘汗除。", "芍药汤中用槟黄，芩连归桂草木香，重在调气兼行血，里急便脓自然康。", "白头翁汤治热痢，黄连黄柏佐秦皮,清热解毒并凉血，赤多白少脓血医。", "王氏清暑益气汤，暑热气津已两伤，洋参麦斛粳米草，翠衣荷连知竹尝。", "香蒂散中扁豆朴，祛暑解表化湿阻,易豆为花加银翘，新加香常署重除。"],
+                ["理中丸主温中阳,人参甘草术干姜,呕利腹痛阴寒盛,再加附子更扶阳", "小建中汤君饴糖，方含桂枝加芍汤，温中补虚和缓急，虚劳里急腹痛康。", "吴茱萸汤参枣姜，肝胃虚寒此法良，阳明寒呕少阴利，厥阴头痛亦堪尝", "四逆汤中附草姜，阳衰寒厥急煎尝，腹痛吐泻脉沉细，急投此方可回阳。", "回阳救急用六君，桂附干姜五味群，加麝三厘或胆汁，三阴寒厥建奇勋。", "暖肝煎中杞茯归，茴沉乌药合肉桂，下焦虚寒疝气痛，温补肝肾此方推。", "阳和汤法解寒凝,贴骨流注鹤膝风,熟地鹿胶姜炭桂,麻黄白芥甘草从"],
+                ["四君子汤中和义 ,参术茯苓甘草比, 益以夏陈名六君, 祛痰补气阳虚饵, 除却半夏名异功, 或加香砂胃寒使。", "参苓白术扁豆陈，莲草山药砂苡仁；桔梗上浮兼保肺，枣汤调服益脾神。", "补中益气芪参术，炙草升柴归陈助；清阳下陷能升举，气虚发热甘温除。", "生脉麦味与人参,保肺清心治暑淫;气少汗多兼口渴，病危脉绝急煎斟。", "人参蛤蚧益肺肾，证见痰热咳与喘，桑皮贝母茯苓杏，知母甘草同加餐。", "四物熟地归芍芎，补血调血此方宗；营血虚滞诸多证，加减运用贵变通。", "归脾汤用术参芪，归草茯神远志齐；酸枣术香龙眼肉，煎加姜枣益心脾。", "六味地黄山药萸,泽泻苓丹三泻侣;三阴并补重滋肾,肾阴不足效可居;滋阴降火知柏需，养肝明目加杞菊；都气五味纳肾气，滋补肺肾麦味续。", "一贯煎中生地黄,沙参归杞麦冬藏;少佐川楝泄肝气，阴虚胁痛此方良。", "金匮肾气治肾虚，熟地淮药及山萸，丹皮苓泽加桂附，引火归元热下趋", "地黄饮子山茱斛，麦味菖蒲远志茯;<br>苁蓉桂附巴戟天，少入薄荷枣姜服。"],
+                ["牡蛎散内用黄芪，麻黄根与小麦齐，益气固表又敛阴，体虚自汗盗汗宜。", "真人养脏木香诃，当归肉蔻与粟壳，术芍参桂甘草共，脱肛久痢服之瘘。", "四神故纸与吴萸，肉蔻五味四般齐；大枣生姜同煎合，五更肾泄最相宜。", "桃花汤中赤石脂,千姜粳米三般施,虚寒下痢便脓血，温涩止痢服之宜。", "桑螵蛸散龙龟甲，参归茯神菖远加，调补心肾又涩精，心肾两虚尿频佳。", "固冲芪术山萸芍，龙牡倍榈茜海螵;益气健脾固摄血,脾虚冲脉不固疗。", "固经龟板芍药苓，黄柏椿根香附应；阴虚血热经量多，滋阴清热能固经。", "易黄山药与芡实，白果黄柏车前子;固肾清热又祛湿，肾虚湿热带下医。"],
+                ["朱砂安神东垣方，归草黄连生地黄,心悸不寐心烦乱，清热养阴神自安。", "天王补心柏枣仁，二冬生地当归身，三参桔梗朱砂味，远志茯苓共养神。", "酸枣仁汤治失眠，川芎知草茯苓煎，养血除烦清虚热，安然入睡梦乡甜。"],
+                ["安宫牛黄开窍方,苓连栀郁朱雄黄，犀角珍珠冰麝箔，热闭心包功用良。", "苏合香丸麝息香,木丁熏陆荜檀香，牛冰术沉诃香附，中恶急救莫彷徨。"],
+                ["越鞠丸治六郁证，气血痰火食湿困，芎术香附栀神曲，气畅郁舒痛闷伸。", "半夏厚朴痰气疏，茯苓生姜共紫苏，加枣同煎名四七，痰凝气滞皆能除。", "苏子降气半夏归，前胡桂朴姜草随;<br>上盛下虚痰嗽喘，或加沉香去肉桂。", "定喘白果与麻黄，款冬半夏白皮桑，苏杏黄芩兼甘草，外寒痰热喘哮尝。", "旋覆代赭汤人参，半夏甘草姜枣临，重以镇逆咸软痞，痞硬噫气最能禁。"],
+                ["桃仁承气五般施，甘草硝黄并桂枝，瘀热互结小腹胀，蓄血如狂最相宜。", "血府当归生地桃，红花枳壳膝芎饶，通窍全凭好麝香，桃红大枣老葱姜；川芎黄酒赤芍药，表里通经第一方。膈下逐瘀桃牡丹，赤芍乌药元胡甘；归芎灵脂红花壳，香附开郁血亦安。少腹茴香与炒姜，元胡灵脂没芎当；蒲黄官桂赤芍药，调经种子第一方。身痛逐瘀膝地龙，香附羌秦草归芎；黄芪苍柏量加减，要紧五灵桃没红。", "补阳还五赤芍芎，归尾通经佐地龙，四两黄芪为主药，益气活血效力宏。", "复元活血汤柴胡,花粉当归山甲俱,桃仁红花大黄草,跌打损伤酒煎服。", "温经归芍桂萸芎，姜夏丹皮及麦冬,参草扶脾胶益血，调经重在暖胞宫。", "生化汤宜产后尝，归芎桃草酒炮姜，恶露不行少腹痛，化瘀温经功效彰。", "金匮桂枝茯苓丸，芍药桃仁和牡丹，等分为末蜜丸服,活血化瘀瘤块散。", "咳血方中诃子收，瓜蒌海粉山栀投，青黛蜜丸口噙化，咳嗽痰血服之瘆。", "黄龙汤枳朴硝黄，参归甘桔枣生姜，阳明腑实气血弱，攻补兼施效力强。", "黄土汤用苓地黄，术附阿胶甘草尝，温阳健脾能摄血，便血崩漏服之康。"],
+                ["川芎茶调散荆防，辛芷薄荷甘草羌，目昏鼻塞风攻上，正偏头痛悉能康。", "大秦艽汤风热搏,细辛白芷羌独活，防风黄芩生石膏，八珍去参经络复。", "羚角钩藤汤法凉，桑菊茯神鲜地黄，贝草竹茹同芍药，肝风内动急煎尝。", "镇肝熄风芍天冬，玄参牡蛎赭菌供,麦龟膝草龙川楝，肝风内动有奇功。", "天麻钩藤饮熄风,茯神牛膝桑寄生,黄芩栀子石决明,杜仲益母夜交藤。"],
+                ["清燥救肺参草杷，石膏胶杏麦胡麻，经霜收下冬桑叶，清燥润肺效可夸", "养阴清肺是妙方，玄参草芍麦地黄，薄荷贝母丹皮入，时疫白喉急煎尝。"],
+                ["平胃散内君苍术，甘草姜枣破陈煮；燥湿运脾又和胃，湿滞脾胃胀满除。", "藿香正气腹皮苏，平胃散中白术桔;神曲白芷和茯苓，风寒暑湿并能除。", "茵陈蒿汤大黄栀，瘀热阳黄此方施；便难尿赤腹胀满，功在清热与利湿。", "八正木通与车前，扁蓄大黄栀滑研；草梢瞿麦灯心草，湿热诸淋宜服煎。", "五苓散治太阳腑，白术泽泻猪苓茯，桂枝化气兼解表，小便通利水饮逐。", "真武附苓术芍姜，温阳利水壮肾阳；脾肾阳虚水气停,腹痛悸眩瞤动康。", "实脾温阳行利水，干姜附苓术草随;木瓜香槟朴草果，阳虚水肿腹胀崇.", "独活寄生秦防辛，四物四君去白术；桂枝杜仲与牛膝，顽痹风寒湿是因。"],
+                ["二陈汤用半夏陈，苓草梅姜一并存，燥湿祛痰兼理气，湿痰为患此方珍。", "温胆夏茹枳陈助，佐以茯草姜枣煮；理气化痰利胆胃，胆郁痰扰诸症除。", "清气化痰胆星蒌，夏芩杏陈枳实投。茯苓姜汁糊丸服，气顺火清痰热疗。", "半夏白术天麻汤，苓草橘红枣生姜，眩晕头痛风痰盛，痰化风熄复正常。"],
+                ["保和神曲与山楂，苓夏陈翘菔子加,炊饼为丸白汤下,消食和胃效堪夸。", "健脾陈皮四君子，肉蔻香连合砂仁,楂肉山药曲麦炒,消补兼施此方寻。"],
+                ["乌梅丸用细辛桂,黄连黄柏及当归，人参椒姜加附子,清上温下又安蛔。"],
+                ["瓜蒂散中赤小豆,豆豉汁调酸苦凑，逐邪涌吐功最捷，胸脘痰食服之瘆。"],
+                ["透脓散治毒成脓，芪归山甲皂刺芎，程氏又加银蒡芷，更能速奏溃破功。"],
+                [""]
+            ];
+
+            const ffang = [[0, 2], [0, 5], [0, 3], [1, 3], [2, 1], [2, 4], [2, 5], [2, 6], [3, 2], [3, 4], [3, 8], [3, 11], [4, 1], [5, 1], [5, 2], [5, 6], [5, 7], [5, 9], [5, 10], [9, 0], [9, 2], [9, 3], [10, 0], [10, 1], [10, 8], [11, 0], [11, 2], [11, 3], [12, 0], [12, 1], [13, 1], [13, 6], [14, 2], [14, 3], [15, 0], [15, 1], [16, 0], [4, 5], [18, 0], [3, 5], [0, 5], [0, 3]];//重点方
+            const first = [8, 5, 7, 14, 7, 11, 8, 3, 2, 5, 10, 5, 2, 8, 4, 2, 1, 1, 1, ffang.length]
+
+            //初始化重点方
+            for (i = 0; i < len; i++) {
+                array_fang[len - 1][i] = array_fang[ffang[i][0]][ffang[i][1]];
             }
-        });
-        
-        
-        var resultFangElement = document.getElementById('result_fang');
-        resultFangElement.style.fontSize =JSON.parse(localStorage.getItem('pixel_fang')?localStorage.getItem('pixel_fang'):"40px");
-        var resultPoetElement = document.getElementById('result_poet');
-        resultPoetElement.style.fontSize =JSON.parse(localStorage.getItem('pixel_poet')?localStorage.getItem('pixel_poet'):"35px");
-        
-        function addHis() {//新增历史方歌
-    // 获取菜单元素
-            var MenuHis = document.getElementById("MenuHis");
-    // 创建新选项
-            var newOption = document.createElement("option");
-            newOption.text = "第" + times + "首" + array_fang[ranSort][ranNumber];
-    // 将新选项添加到菜单
-            MenuHis.add(newOption);
-        }
-        
-        function addFang() {//导入所属目录的方歌
-    // 获取菜单元素
-            var dynamicMenu = document.getElementById("MenuSort");
-
-    // 创建新选项
-            dynamicMenu.innerHTML = '';
-            for(i = 0;i < (fir?(first[ranSort]):(array_fang[ranSort].length));i++){
-            var newOption = document.createElement("option");
-            newOption.text = array_fang[ranSort][i];
-    // 将新选项添加到菜单
-            MenuSort.add(newOption);
-            }
-        }
-    
-        function processString(inputString) {
-            const punctuationMap = {
-                '.': '。',',': '，','?': '？','!': '！',';': '；'
-            };// 添加其他标点符号映射
-
-            const regex = /[.,?!;]/g; // 根据需要添加其他标点符号
-            inputString = inputString.replace(regex, match => punctuationMap[match] || match);
-            inputString = inputString.replace(/([，。；])(?!<br>)/g, "$1<br>");
-            return inputString;
-        }
-
-// 示例用法
-        
-        function getSelectedValues() {
-            const dropdown = document.getElementById("optionsDropdown");
-            const selectedOptions = dropdown.selectedOptions;
-            all = (dropdown.options[0].selected==true&&selectedOptions.length==1);
-    // 监听菜单选项的变化
-    
-            const options = dropdown.options;
-
-            if (selectedOptions.length === 0) {
-                alert("请选择至少一个选项！");
-                return 0; // 阻止进一步的操作
+            for (i = 0; i < len; i++) {
+                array_poet[len - 1][i] = array_poet[ffang[i][0]][ffang[i][1]];
             }
 
-    // 清空数组并将选中的值添加到数组中
-            ranArray = [];
-            lengthArray = (all)?(dropdown.options.length-1):selectedOptions.length;
-            for (let i = 0; i < lengthArray; i++) {
-                ranArray.push(all?dropdown.options[i+1].value:(dropdown.options[0].selected==true)?(selectedOptions[i+((i==lengthArray-1)?0:1)].value):(selectedOptions[i].value));
+            //注明方剂类型
+            var array_sort = ["解表剂", "泻下剂", "和解剂", "清热剂", "温里剂", "补益剂", "固涩剂", "安神剂", "开窍剂", "理气剂", "理血剂", "治风剂", "治燥剂", "祛湿剂", "祛痰剂", "祛湿剂", "消食剂", "驱虫剂", "涌吐剂"]
+
+            // 获取复选框元素
+            var checkboxFir = document.getElementById('myFir');
+            // 初始化一级方选项
+            var fir = false;
+
+            // 检查本地存储是否有保存的状态
+            const savedCheckboxState = localStorage.getItem('State');
+            // 如果有保存的状态，则设置复选框的状态
+            if (savedCheckboxState) {
+                document.getElementById('myFir').checked = savedCheckboxState === 'true';
+                fir = JSON.parse(localStorage.getItem('State'));
+            }
+            checkboxFir.addEventListener('change', function () {
+                // 记录是否为一级方
+                fir = this.checked;
+                localStorage.setItem('State', JSON.stringify(this.checked));
+                addFang();
+            });
+
+            //读取本地方剂类型已选项
+            ranArray = JSON.parse(localStorage.getItem('ranArr'));
+            const meSort = document.getElementById("optionsDropdown");
+            const options = meSort.options; options[0].selected = false;
+            ranArray.forEach(value => {
+                // 设置对应值的选项为选中状态
+                const option = meSort.querySelector(`[value="${value}"]`);
+                if (option) {
+                    option.selected = true;
+                }
+            });
+
+
+            var resultFangElement = document.getElementById('result_fang');
+            resultFangElement.style.fontSize = JSON.parse(localStorage.getItem('pixel_fang') ? localStorage.getItem('pixel_fang') : "40px");
+            var resultPoetElement = document.getElementById('result_poet');
+            resultPoetElement.style.fontSize = JSON.parse(localStorage.getItem('pixel_poet') ? localStorage.getItem('pixel_poet') : "35px");
+
+            function addHis() {//新增历史方歌
+                // 获取菜单元素
+                var MenuHis = document.getElementById("MenuHis");
+                // 创建新选项
+                var newOption = document.createElement("option");
+                newOption.text = "第" + times + "首" + array_fang[ranSort][ranNumber];
+                // 将新选项添加到菜单
+                MenuHis.add(newOption);
             }
 
-            return 1; 
-        }
-        
-        function words(condition){
-            if(!times) return 0;
-            
-            document.getElementById("result_fang").innerHTML = "第" + show_times + "首方: <br>" + array_fang[ranSort][ranNumber];
-            var poet = document.getElementById("result_poet");
-            if(condition) poet.innerHTML = (!poet.innerHTML)?("歌诀：<br>" + processString(array_poet[ranSort][ranNumber]) + ((array_poet[ranSort][ranNumber].charAt(array_poet[ranSort][ranNumber].length -1)!="。")?"。":"")):"";else poet.innerHTML = "";
-        }
-        
-        function generateFang(innum,insort) {
-            if(!getSelectedValues()) return 0;
+            function addFang() {//导入所属目录的方歌
+                // 获取菜单元素
+                var dynamicMenu = document.getElementById("MenuSort");
 
-            var lim_array = [];
-            var lim_times = 0;
-            
-            for(i = 0;i<lengthArray;i++){
-                for(ii = 0;ii<array_fang[ranArray[i]].length;ii++){
-                    lim_array[lim_times] = ranArray[i];
-                    lim_times++;
+                // 创建新选项
+                dynamicMenu.innerHTML = '';
+                for (i = 0; i < (fir ? (first[ranSort]) : (array_fang[ranSort].length)); i++) {
+                    var newOption = document.createElement("option");
+                    newOption.text = array_fang[ranSort][i];
+                    // 将新选项添加到菜单
+                    MenuSort.add(newOption);
                 }
             }
-            
-            lim_times = Math.floor(Math.random() * lim_array.length);//选的几类方里挑一个，根据方剂数量采用加权平均法
-            ranSort = (insort<0)?lim_array[lim_times]:insort;
-            
-            ranNumber = (innum<0)?Math.floor(Math.random() * (fir?first[ranSort]:array_fang[ranSort].length)):innum;
-            
-            memory_sort[times + 1] = ranSort;
-            memory_num[times + 1] = ranNumber;
-            times++;show_times = times;
-            addHis();addFang();
-            
-            localStorage.removeItem('ranArr');
-            if(!all) localStorage.setItem('ranArr',JSON.stringify(ranArray));
-            
-            //菜单返回
-            var selectElementA = document.getElementById("MenuSort");
-            selectElementA.selectedIndex = ranNumber;
-            var selectElementB = document.getElementById("MenuHis");
-            selectElementB.selectedIndex = times;
-            
-            //初始化禁用历史
-            var dis = document.getElementById("MenuHis");
-            dis.querySelector('option:first-child').disabled = true;
 
-            showTest(1);
-            words(0);
-        }
-        
-        function handleHis() {
-            // 获取被选中的选项的序列（索引）
-            var selectedIndex = document.getElementById("MenuHis").selectedIndex;
-            
-    // 在这里你可以使用 selectedIndex 进行后续操作
-            ranSort = memory_sort[selectedIndex];
-            ranNumber = memory_num[selectedIndex];
-            show_times = selectedIndex;
-            
-            addFang();
-            words(0);
-        }
-        
-        function handleSort() {
-    // 获取被选中的选项的序列（索引）
-            var selectedIndex = document.getElementById("MenuSort").selectedIndex;
-    // 在这里你可以使用 selectedIndex 进行后续操作
-            ranNumber = selectedIndex;
-            words(0);
-        }
-    
-        function showTest(testAsk){
-            var t = document.getElementById("test");
-            var s = ("ranNumber:"+ranNumber+"（随机到的第几个方）<br>ranSort:"+ranSort+"（随机到的第几类方）<br>ranArray:"+ranArray+"（随机范围）<br>lengthArray:"+lengthArray);
-            t.innerHTML = (testAsk?(t.innerHTML?s:""):(t.innerHTML?(""):s));
-        }
-        
-        const searchData=array_fang// 添加更多搜索建议;
+            function processString(inputString) {
+                const punctuationMap = {
+                    '.': '。', ',': '，', '?': '？', '!': '！', ';': '；'
+                };// 添加其他标点符号映射
 
-        const searchInput = document.getElementById("searchInput");
-    const suggestionsContainer = document.getElementById("suggestions");
+                const regex = /[.,?!;]/g; // 根据需要添加其他标点符号
+                inputString = inputString.replace(regex, match => punctuationMap[match] || match);
+                inputString = inputString.replace(/([，。；])(?!<br>)/g, "$1<br>");
+                return inputString;
+            }
 
-    searchInput.addEventListener("input", function() {
-      const userInput = searchInput.value.toLowerCase();
+            // 示例用法
 
-      // 获取所有提示词候选
-      const allSuggestions = searchData.flat();
-      
-      // 过滤出包含用户输入的提示词
-      const matchingSuggestions = allSuggestions.filter(suggestion =>
-        suggestion.toLowerCase().includes(userInput)
-      );
+            function getSelectedValues() {
+                const dropdown = document.getElementById("optionsDropdown");
+                const selectedOptions = dropdown.selectedOptions;
+                all = (dropdown.options[0].selected == true && selectedOptions.length == 1);
+                // 监听菜单选项的变化
 
-      
-      displaySuggestions(matchingSuggestions);
-    });
-    searchInput.addEventListener("click", function() {
-      const userInput = searchInput.value.toLowerCase();
+                const options = dropdown.options;
 
-      // 获取所有提示词候选
-      const allSuggestions = searchData.flat();
-      
-      // 过滤出包含用户输入的提示词
-      const matchingSuggestions = allSuggestions.filter(suggestion =>
-        suggestion.toLowerCase().includes(userInput)
-      );
-      words(0);
-      displaySuggestions(matchingSuggestions);
-    });
-    
-    
-    function displaySuggestions(suggestions) {
-      suggestionsContainer.innerHTML = "";
+                if (selectedOptions.length === 0) {
+                    ("请选择至少一个选项！");
+                    return 0; // 阻止进一步的操作
+                }
 
-      if (suggestions.length > 0) {
-        for (let i = 0; i < suggestions.length; i++) {
-          const suggestionElement = document.createElement("div");
-          suggestionElement.textContent = suggestions[i];
-          
-          suggestionElement.addEventListener("click", function() {
-            // 将点击的建议的文本内容设置为userInput的值
-            searchInput.value = suggestions[i];
-            suggestionsContainer.style.display = "none";
-            for (let i = 0; i < array_fang.length; i++) {
-        for (let j = 0; j < array_fang[i].length; j++) {
-          // 检查用户输入是否等于数组中的元素
-          if (searchInput.value === array_fang[i][j]) {
-            generateFang(j,i);words(1);
-            return;  // 如果找到匹配，结束函数
-          }
-        }
-      }
-          });
+                // 清空数组并将选中的值添加到数组中
+                ranArray = [];
+                lengthArray = (all) ? (dropdown.options.length - 1) : selectedOptions.length;
+                for (let i = 0; i < lengthArray; i++) {
+                    ranArray.push(all ? dropdown.options[i + 1].value : (dropdown.options[0].selected == true) ? (selectedOptions[i + ((i == lengthArray - 1) ? 0 : 1)].value) : (selectedOptions[i].value));
+                }
 
-          suggestionsContainer.appendChild(suggestionElement);
-        }
+                return 1;
+            }
 
-        suggestionsContainer.style.display = "block";
-      } else {
-        suggestionsContainer.style.display = "none";
-      }
-    }
+            function words(condition) {
+                if (!times) return 0;
 
-    // 点击其他地方时隐藏建议框
-    document.addEventListener("click", function(event) {
-      if (event.target !== searchInput) {
-        suggestionsContainer.style.display = "none";
-      }
-    });
-    
-    function reschange(ask){
-        
-        var resultFangElement = document.getElementById('result_fang');
-        localStorage.setItem('pixel_fang',JSON.stringify(resultFangElement.style.fontSize = (parseFloat(window.getComputedStyle(resultFangElement).fontSize))+(ask ? (2) : (-2))+"px"));
-        
-        var resultPoetElement = document.getElementById('result_poet');
-        localStorage.setItem('pixel_poet',JSON.stringify(resultPoetElement.style.fontSize = (parseFloat(window.getComputedStyle(resultPoetElement).fontSize))+(ask ? (2) : (-2))+"px"));
-        
-    }
-    
-    function clearInput() {
-        document.getElementById('searchInput').value = '';
-    }
-    </script>
-</body>
-</html>
+                document.getElementById("result_fang").innerHTML = "第" + show_times + "首方: <br>" + array_fang[ranSort][ranNumber];
+                var poet = document.getElementById("result_poet");
+                if (condition) poet.innerHTML = (!poet.innerHTML) ? ("歌诀：<br>" + processString(array_poet[ranSort][ranNumber]) + ((array_poet[ranSort][ranNumber].charAt(array_poet[ranSort][ranNumber].length - 1) != "。") ? "。" : "")) : ""; else poet.innerHTML = "";
+            }
+
+            function generateFang(innum, insort) {
+                if (!getSelectedValues()) return 0;
+
+                var lim_array = [];
+                var lim_times = 0;
+
+                for (i = 0; i < lengthArray; i++) {
+                    for (ii = 0; ii < array_fang[ranArray[i]].length; ii++) {
+                        lim_array[lim_times] = ranArray[i];
+                        lim_times++;
+                    }
+                }
+
+                lim_times = Math.floor(Math.random() * lim_array.length);//选的几类方里挑一个，根据方剂数量采用加权平均法
+                ranSort = (insort < 0) ? lim_array[lim_times] : insort;
+
+                ranNumber = (innum < 0) ? Math.floor(Math.random() * (fir ? first[ranSort] : array_fang[ranSort].length)) : innum;
+
+                memory_sort[times + 1] = ranSort;
+                memory_num[times + 1] = ranNumber;
+                times++; show_times = times;
+                addHis(); addFang();
+
+                localStorage.removeItem('ranArr');
+                if (!all) localStorage.setItem('ranArr', JSON.stringify(ranArray));
+
+                //菜单返回
+                var selectElementA = document.getElementById("MenuSort");
+                selectElementA.selectedIndex = ranNumber;
+                var selectElementB = document.getElementById("MenuHis");
+                selectElementB.selectedIndex = times;
+
+                //初始化禁用历史
+                var dis = document.getElementById("MenuHis");
+                dis.querySelector('option:first-child').disabled = true;
+
+                showTest(1);
+                words(0);
+            }
+
+            function handleHis() {
+                // 获取被选中的选项的序列（索引）
+                var selectedIndex = document.getElementById("MenuHis").selectedIndex;
+
+                // 在这里你可以使用 selectedIndex 进行后续操作
+                ranSort = memory_sort[selectedIndex];
+                ranNumber = memory_num[selectedIndex];
+                show_times = selectedIndex;
+
+                addFang();
+                words(0);
+            }
+
+            function handleSort() {
+                // 获取被选中的选项的序列（索引）
+                var selectedIndex = document.getElementById("MenuSort").selectedIndex;
+                // 在这里你可以使用 selectedIndex 进行后续操作
+                ranNumber = selectedIndex;
+                words(0);
+            }
+
+            function showTest(testAsk) {
+                var t = document.getElementById("test");
+                var s = ("ranNumber:" + ranNumber + "（随机到的第几个方）<br>ranSort:" + ranSort + "（随机到的第几类方）<br>ranArray:" + ranArray + "（随机范围）<br>lengthArray:" + lengthArray);
+                t.innerHTML = (testAsk ? (t.innerHTML ? s : "") : (t.innerHTML ? ("") : s));
+            }
+
+            const searchData = array_fang// 添加更多搜索建议;
+            //const suggestionsContainer = document.getElementById("suggestions");
+
+            document.getElementById("searchInput").addEventListener("input", function () {
+                const userInput = document.getElementById("searchInput").value.toLowerCase();
+
+                // 获取所有提示词候选
+                const allSuggestions = searchData.flat();
+
+                // 过滤出包含用户输入的提示词
+                const matchingSuggestions = allSuggestions.filter(suggestion =>
+                    suggestion.toLowerCase().includes(userInput)
+                );
+
+
+                displaySuggestions(matchingSuggestions);
+            });
+            document.getElementById("searchInput").addEventListener("click", function () {
+                addFang();
+                const userInput = document.getElementById("searchInput").value.toLowerCase();
+
+                // 获取所有提示词候选
+                const allSuggestions = searchData.flat();
+
+                // 过滤出包含用户输入的提示词
+                const matchingSuggestions = allSuggestions.filter(suggestion =>
+                    suggestion.toLowerCase().includes(userInput)
+                );
+                words(0);
+                displaySuggestions(matchingSuggestions);
+            });
+
+            function sInput() {
+                for (let i = 0; i < array_fang.length; i++) {
+                    for (let j = 0; j < array_fang[i].length; j++) {
+                        // 检查用户输入是否等于数组中的元素
+                        if (document.getElementById("searchInput").value === array_fang[i][j]) {
+                            generateFang(j, i); words(1);
+                            return;  // 如果找到匹配，结束函数
+                        }
+                    }
+                }
+            }
+
+            function displaySuggestions(suggestions) {
+                document.getElementById("suggestions").innerHTML = "";
+
+                if (suggestions.length > 0) {
+                    for (let i = 0; i < suggestions.length; i++) {
+                        const suggestionElement = document.createElement("div");
+                        suggestionElement.textContent = suggestions[i];
+
+                        suggestionElement.addEventListener("click", function () {
+                            // 将点击的建议的文本内容设置为userInput的值
+                            document.getElementById("searchInput").value = suggestions[i];
+                            document.getElementById("suggestions").style.display = "none";
+                            sInput();
+                        });
+
+                        document.getElementById("suggestions").appendChild(suggestionElement);
+                    }
+
+                    document.getElementById("suggestions").style.display = "block";
+                } else {
+                    document.getElementById("suggestions").style.display = "none";
+                }
+            }
+
+            // 点击其他地方时隐藏建议框
+            document.addEventListener("click", function (event) {
+                if (event.target !== document.getElementById("searchInput")) {
+                    document.getElementById("suggestions").style.display = "none";
+                }
+            });
+
+            function reschange(ask) {
+
+                var resultFangElement = document.getElementById('result_fang');
+                localStorage.setItem('pixel_fang', JSON.stringify(resultFangElement.style.fontSize = (parseFloat(window.getComputedStyle(resultFangElement).fontSize)) + (ask ? (2) : (-2)) + "px"));
+
+                var resultPoetElement = document.getElementById('result_poet');
+                localStorage.setItem('pixel_poet', JSON.stringify(resultPoetElement.style.fontSize = (parseFloat(window.getComputedStyle(resultPoetElement).fontSize)) + (ask ? (2) : (-2)) + "px"));
+
+            }
+
+            function clearInput() {
+                document.getElementById('searchInput').value = '';
+            }
+        </script>
+    </body>
+
+    </html>
