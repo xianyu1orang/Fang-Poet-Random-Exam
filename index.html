@@ -42,7 +42,7 @@
 
             #optionsDropdown {
                 height: 3em;
-                width: 150px;
+                width: 200px;
             }
 
             #clearbutton {
@@ -90,6 +90,13 @@
         <br>
         <button onclick="words(1)" style="width: 100px; height: 40px;font-size: 15px;">查看歌诀</button>
 
+        <div>
+            <input type="text" placeholder="搜索方歌名" id="searchInput">
+            <button onclick="sInput()" id="sInput">🔍</button>
+            <button onclick="clearInput()" id="clearbutton">×</button>
+        </div>
+        <div id="suggestions"></div>
+
         <div id="optionsContainer">
             <span>方剂类型：</span>
             <form id="myForm">
@@ -119,22 +126,17 @@
             </form>
         </div>
 
-        <select id="MenuSort" onchange="handleSort()"
-            style="width: 150px; height: 40px;font-size: 15px;align-items: center;">
-            <option value="default">所属目录
-        </select>
-
-        <select id="MenuHis" onchange="handleHis()"
-            style="width: 150px; height: 40px;font-size: 15px;align-items: center;">
-            <option value="default">这里是历史记录</option>
-        </select>
-
         <div>
-            <input type="text" placeholder="搜索方歌名" id="searchInput">
-            <button onclick="sInput()" id="sInput">🔍</button>
-            <button onclick="clearInput()" id="clearbutton">×</button>
+            <select id="MenuSort" onchange="handleSort()"
+                style="width: 140px; height: 50px;font-size: 20px;align-items: center;">
+                <option value="default">所属目录
+            </select>
+
+            <select id="MenuHis" onchange="handleHis()"
+                style="width: 140px; height: 50px;font-size: 20px;align-items: center;">
+                <option value="default">这里是历史记录</option>
+            </select>
         </div>
-        <div id="suggestions"></div>
 
         <div>
             <label>
@@ -143,6 +145,7 @@
             <button onclick="reschange(1)" id="reslarer">+</button>
             <button onclick="reschange(0)" id="ressmaer">-</button>
         </div>
+
 
         <!-- 复选框 -->
         <div id="testDescrive">
