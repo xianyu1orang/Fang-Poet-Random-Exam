@@ -1,0 +1,72 @@
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    flex-direction: column;
+}
+
+#result_fang {
+    font-size: 40px;
+    margin-top: 20px;
+    text-align: center;
+}
+
+#result_poet {
+    font-size: 30px;
+    margin-top: 20px;
+    text-align: center;
+}
+
+#author {
+    font-size: 30px;
+    margin-top: 20px;
+    text-align: center;
+}
+
+#optionsContainer {
+    display: flex;
+    align-items: center;
+    font-size: 1em;
+}
+
+#optionsDropdown {
+    height: 3em;
+    width: 200px;
+}
+
+#clearbutton {
+    height: 33px;
+}
+
+img {
+    width: 100px;
+    height: 60px;
+}
+
+#searchInput {
+    z-index: 1;
+    width: 220px;
+    /* 设置输入框的宽度 */
+    height: 35px;
+    /* 设置输入框的高度 */
+    font-size: 25px;
+    /* 设置输入框的字体大小 */
+}
+
+#suggestions {
+    z-index: 8;
+    border: 1px solid #ccc;
+    max-height: 150px;
+    overflow-y: auto;
+    display: none;
+    width: 300px;
+    /* 设置提示框的宽度 */
+    font-size: 25px;
+    /* 设置提示框的字体大小 */
+}
+
+#test {
+    text-align: center;
+}
