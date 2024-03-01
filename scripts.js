@@ -89,6 +89,9 @@ function addFang() {//导入所属目录的方歌
         // 将新选项添加到菜单
         MenuSort.add(newOption);
     }
+
+    document.getElementById("MenuSort").selectedIndex = (ranNumber < first[ranSort] && array_fang[ranSort].length < first[ranSort] - 1) ? 0 : ranNumber;
+    //选定返回选中的方
 }
 
 function processString(inputString) {
@@ -178,15 +181,13 @@ function generateFang(innum, insort) {
 function handleHis() {
     // 获取被选中的选项的序列（索引）
     var selectedMenuHis = document.getElementById("MenuHis").selectedIndex;
-    var selectedMenuSort = document.getElementById("MenuSort");
-
+    
     // 在这里你可以使用 selectedIndex 进行后续操作
     ranSort = memory_sort[selectedMenuHis];
     ranNumber = memory_num[selectedMenuHis];
     show_times = selectedMenuHis;
 
     addFang();
-    selectedMenuSort.selectedIndex = ranNumber;//选定返回选中的方
     words(0);
 }
 
