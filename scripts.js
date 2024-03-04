@@ -19,6 +19,7 @@ for (i = 0; i < len; i++) {
     array_poet[len - 1][i] = array_poet[ffang[i][0]][ffang[i][1]];
 }
 
+
 var optionsDropdown = document.getElementById("optionsDropdown");
 // 使用循环遍历 sort 数组并为 select 元素添加 options
 for (var i = 0; i < array_sort.length; i++) {
@@ -83,7 +84,7 @@ function addFang() {//导入所属目录的方歌
 
     // 创建新选项
     dynamicMenu.innerHTML = '';
-    for (i = 0; i < (fir ? (first[ranSort]) : (array_fang[ranSort].length)); i++) {
+    for (i = 0; i < (fir ? (first[ranSort] + 1) : (array_fang[ranSort].length)); i++) {
         var newOption = document.createElement("option");
         newOption.text = array_fang[ranSort][i];
         // 将新选项添加到菜单
@@ -153,7 +154,6 @@ function generateFang(innum, insort) {
 
     lim_times = Math.floor(Math.random() * lim_array.length);//选的几类方里挑一个，根据方剂数量采用加权平均法
     ranSort = (insort < 0) ? lim_array[lim_times] : insort;
-
     ranNumber = (innum < 0) ? Math.floor(Math.random() * (fir ? first[ranSort] : array_fang[ranSort].length)) : innum;
 
     memory_sort[times + 1] = ranSort;
@@ -205,89 +205,29 @@ function showTest(testAsk) {
     t.innerHTML = (testAsk ? (t.innerHTML ? s : "") : (t.innerHTML ? ("") : s));
 }
 
-const searchData = array_fang// 添加更多搜索建议;
-//const suggestionsContainer = document.getElementById("suggestions");
-
-document.getElementById("searchInput").addEventListener("input", function () {
-    const userInput = document.getElementById("searchInput").value.toLowerCase();
-
-    // 获取所有提示词候选
-    const allSuggestions = searchData.flat();
-
-    // 过滤出包含用户输入的提示词
-    const matchingSuggestions = allSuggestions.filter(suggestion =>
-        suggestion.toLowerCase().includes(userInput)
-    );
-
-
-    displaySuggestions(matchingSuggestions);
-});
-document.getElementById("searchInput").addEventListener("click", function () {
-    addFang();
-    const userInput = document.getElementById("searchInput").value.toLowerCase();
-
-    // 获取所有提示词候选
-    const allSuggestions = searchData.flat();
-
-    // 过滤出包含用户输入的提示词
-    const matchingSuggestions = allSuggestions.filter(suggestion =>
-        suggestion.toLowerCase().includes(userInput)
-    );
-    words(0);
-    displaySuggestions(matchingSuggestions);
-});
-
-function sInput() {
-    for (let i = 0; i < array_fang.length; i++) {
-        for (let j = 0; j < array_fang[i].length; j++) {
-            // 检查用户输入是否等于数组中的元素
-            if (document.getElementById("searchInput").value === array_fang[i][j]) {
-                generateFang(j, i); words(1);
-                return;  // 如果找到匹配，结束函数
-            }
-        }
+//初始化搜索框
+for (let i = 0; i < array_fang.length; i++) {
+    for (let j = 0; j < array_fang[i].length; j++) {
+        var newOption = document.createElement("option");
+        newOption.text = array_fang[i][j];
+        newOption.value = '{"num":' + j.toString() + ',"sort":' + i.toString() + '}';
+        // 将新选项添加到菜单
+        search.add(newOption);
     }
-}
-
-function displaySuggestions(suggestions) {
-    document.getElementById("suggestions").innerHTML = "";
-
-    if (suggestions.length > 0) {
-        for (let i = 0; i < suggestions.length; i++) {
-            const suggestionElement = document.createElement("div");
-            suggestionElement.textContent = suggestions[i];
-
-            suggestionElement.addEventListener("click", function () {
-                // 将点击的建议的文本内容设置为userInput的值
-                document.getElementById("searchInput").value = suggestions[i];
-                document.getElementById("suggestions").style.display = "none";
-                sInput();
-            });
-
-            document.getElementById("suggestions").appendChild(suggestionElement);
-        }
-
-        document.getElementById("suggestions").style.display = "block";
-    } else {
-        document.getElementById("suggestions").style.display = "none";
-    }
-}
-
-// 点击其他地方时隐藏建议框
-document.addEventListener("click", function (event) {
-    if (event.target !== document.getElementById("searchInput")) {
-        document.getElementById("suggestions").style.display = "none";
-    }
+}layui.use(function () {
+    // select 事件
+    layui.form.on('select(select-filter)', function (data) {
+        let index = JSON.parse(data.value);
+        generateFang(index.num, index.sort); words(1);
+    });
 });
 
 function reschange(ask) {
-
     var resultFangElement = document.getElementById('result_fang');
     localStorage.setItem('pixel_fang', JSON.stringify(resultFangElement.style.fontSize = (parseFloat(window.getComputedStyle(resultFangElement).fontSize)) + (ask ? (2) : (-2)) + "px"));
 
     var resultPoetElement = document.getElementById('result_poet');
     localStorage.setItem('pixel_poet', JSON.stringify(resultPoetElement.style.fontSize = (parseFloat(window.getComputedStyle(resultPoetElement).fontSize)) + (ask ? (2) : (-2)) + "px"));
-
 }
 
 function clearInput() {
