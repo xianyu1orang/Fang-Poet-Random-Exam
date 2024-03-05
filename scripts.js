@@ -1,3 +1,4 @@
+
 const len = document.getElementById('optionsDropdown').options.length - 1;//有几个选项
 var times = 0;
 var ranSort = 0;//种类随机
@@ -6,10 +7,13 @@ var ranArray = [];//记录随机数组范围
 var lengthArray = 0;//记录选择了几个选项
 var times = 0;//记录生成次数
 var all = 0;//是否是所有方独选
+var treeAll = 0;
 
 var memory_sort = [];
 var memory_num = [];//记录随机方
 var show_times = 0;//显示次数
+var iniID = structure.length;
+var swtGenerate = 1;//2為舊版，1為新版
 
 //初始化重点方
 for (i = 0; i < len; i++) {
@@ -19,13 +23,29 @@ for (i = 0; i < len; i++) {
     array_poet[len - 1][i] = array_poet[ffang[i][0]][ffang[i][1]];
 }
 
+//框架構建
+for (var i = 0; i < structure.length; i++) {//一级类型注入 structure.length
+    listSort.push(JSON.parse('{"title": "' + structure[i].sortname + '", "id": ' + i + ', "children":[],"checked":false}'))
+
+    if (structure[i].property.length == 0) {
+        for (var l = 0; l < array_fang[i].length; l++) listSort[i].children.push(JSON.parse('{"title": "' + array_fang[i][l] + '","index":[' + i + "," + l + ']}'))
+    }
+    else {
+        for (var j = 0; j < structure[i].property.length; j++) {//二级类型注入 
+            listSort[i].children.push(JSON.parse('{"title": "' + structure[i].property[j] + '", "id": ' + (iniID++) + ', "children":[]}'));
+        }
+        for (var k = 0; k < array_fang[i].length && i < structure.length - 1; k++) {//三级类型注入 array_fang[i].length
+            listSort[i].children[structure[i].sort[k]].children.push(JSON.parse('{"title": "' + array_fang[i][k] + '", "id": ' + (iniID++) + ',"index":[' + i + "," + k + ']}'));
+        }
+    }
+}
 
 var optionsDropdown = document.getElementById("optionsDropdown");
 // 使用循环遍历 sort 数组并为 select 元素添加 options
-for (var i = 0; i < array_sort.length; i++) {
+for (var i = 0; i < structure.length; i++) {
     var option = document.createElement("option");
     option.value = i;  // 设置 option 的 value 从 0 开始
-    option.text = array_sort[i];  // 设置 option 的文本内容
+    option.text = structure[i].sortname;  // 设置 option 的文本内容
     optionsDropdown.add(option);
 }
 
@@ -181,7 +201,7 @@ function generateFang(innum, insort) {
 function handleHis() {
     // 获取被选中的选项的序列（索引）
     var selectedMenuHis = document.getElementById("MenuHis").selectedIndex;
-    
+
     // 在这里你可以使用 selectedIndex 进行后续操作
     ranSort = memory_sort[selectedMenuHis];
     ranNumber = memory_num[selectedMenuHis];
@@ -214,7 +234,7 @@ for (let i = 0; i < array_fang.length; i++) {
         // 将新选项添加到菜单
         search.add(newOption);
     }
-}layui.use(function () {
+} layui.use(function () {
     // select 事件
     layui.form.on('select(select-filter)', function (data) {
         let index = JSON.parse(data.value);
@@ -230,6 +250,103 @@ function reschange(ask) {
     localStorage.setItem('pixel_poet', JSON.stringify(resultPoetElement.style.fontSize = (parseFloat(window.getComputedStyle(resultPoetElement).fontSize)) + (ask ? (2) : (-2)) + "px"));
 }
 
-function clearInput() {
-    document.getElementById('searchInput').value = '';
+function switchOn() {
+
+    var swt = document.getElementById("swt");
+    var myForm = document.getElementById('myForm');
+    var treeBox = document.getElementById('treeBox');
+
+    if (swt.className == "layui-icon layui-icon-next") {
+        swt.className = 'layui-icon layui-icon-prev';
+    
+        myForm.style.display = 'none';
+        treeBox.style.display = 'block';
+        swtGenerate = 2;
+    } else {
+        swt.className = 'layui-icon layui-icon-next';
+        myForm.style.display = 'block';
+        treeBox.style.display = 'none';
+        swtGenerate = 1;
+    }
+
 }
+try {
+    function treeSelected(tree, type, id) {
+        if (type == "all") {
+            alert()
+            if (treeAll == false) { treeAll = true; tree.setChecked("treeIt", [0]) }
+            else {
+                alert()
+                treeAll = false; tree.reload("treeIt", 0)
+            }
+        }
+        else if (type == "section") {
+            tree.setChecked("treeIt", id)
+            
+            var inputString = JSON.stringify(tree.getChecked("treeIt")); // 将你的输入字符串赋给这个变量
+            // 定義正則表達式
+            var pattern = /"index":\[(\d+),(\d+)\]/g;
+
+            // 初始化o變量
+            var o = [];
+
+            // 找到所有匹配的結果
+            var match;
+            while (match = pattern.exec(inputString)) {
+                o.push([parseInt(match[1]), parseInt(match[2])]);
+            }
+        }
+    }
+
+    layui.use(function () {
+        var layer = layui.layer;
+        var util = layui.util;
+        // 事件
+        util.on('lay-on', {
+            confirm: function(){
+                layer.open({
+                    area: ['500px', '350px'],
+                    content: `
+                    <img src="https://s3.bmp.ovh/imgs/2024/03/05/5ec3351b992cb7fb.jpg" style="width:200px;height:200px">
+                        `
+                })
+              },
+            'test-page-custom': function () {
+                layer.open({
+                    type: 1,
+                    area: ['250px', '300px'],
+                    resize: false,
+                    shadeClose: true,
+                    title: '方劑類型選擇',
+                    content: `
+                        <div style="text-align:center">    
+                            <button class="layui-btn layui-btn-primary layui-btn-radius" onclick = "alert(switchOn())">所有方</button>
+                            <button class="layui-btn layui-btn-primary layui-btn-radius" onclick = "alert()">一級方</button>
+                        </div>
+                        <div id="ID-tree-showCheckbox"  style="font-size:25px"></div>
+                        `
+                })
+                layui.tree.render({
+                    elem: '#ID-tree-showCheckbox',
+                    id: "treeIt",
+                    data: listSort,
+                    showCheckbox: true,
+                    click: function (obj) {
+                        treeSelected(layui.tree, "section", obj.data.id)
+                    },
+                    oncheck: function (obj) {
+                        const blob = new Blob([JSON.stringify(structure)], {
+                            type: "text/plain",
+                        });
+
+                        // 使用 Clipboard API 將 Blob 對象複製到剪切板
+                        //navigator.clipboard.write([new ClipboardItem({ "text/plain": blob })]);
+                    }
+                    //edit: ['add', 'update'] // 开启节点的右侧操作图标
+
+                });
+
+            }
+        })
+    })
+} catch (err) { alert(err) };
