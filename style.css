@@ -23,6 +23,7 @@ body {
     font-size: 30px;
     margin-top: 20px;
     text-align: center;
+    
 }
 
 #optionsContainer {
@@ -36,15 +37,7 @@ body {
     width: 200px;
 }
 
-#clearbutton {
-    height: 33px;
-}
-
-img {
-    width: 100px;
-    height: 60px;
-}
-
-#test {
+#set {
+    font-size: 20px;
     text-align: center;
 }
