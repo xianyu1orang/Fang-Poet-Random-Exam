@@ -13,7 +13,8 @@
 
     <body>
         <br><br><br><br><br><br><br><br>
-        <div id="result_fang"></div>
+        <div id="result_times"></div>
+        <div id="result_fang" lay-on="test-tips-right"></div>
         <div id="result_poet"></div>
         <button onclick="generateFang(-1,-1)" style="width: 150px; height: 60px;font-size: 25px;">生成方</button>
         <br>
@@ -26,10 +27,11 @@
         </div>
 
         <div id="optionsContainer">
-            <button type="button" class="layui-btn layui-bg-black" style="width: 90px;" onclick="switchOn()" id = "switchFace">
-                <i class="layui-icon layui-icon-next" id = "swt"></i>
+            <button type="button" class="layui-btn layui-bg-black" style="width: 90px;" onclick="switchOn()"
+                id="switchFace">
+                <i class="layui-icon layui-icon-next" id="swt"></i>
             </button>
-            <div class="layui-btn-container" id = "treeBox" style="display: none;height: 40px;color: #f7f7f7;">
+            <div class="layui-btn-container" id="treeBox" style="display: none;height: 40px;color: #f7f7f7;">
                 <button type="button" class="layui-btn layui-bg-blue" lay-on="test-page-custom" style="width: 190px; ">
                     <i class="layui-icon  layui-icon-table layui-bg-blue" style="font-size: 50px;"></i>
                 </button>
@@ -62,27 +64,32 @@
             <button type="button" class="layui-btn layui-btn-primary" lay-on="confirm">
                 <i class="layui-icon layui-icon-file"></i>
             </button>
-            <div id="testDescrive">
+            <div id="testDescrive" style="display: none;">
                 开发者选项
                 <button onclick="showTest(0)">▼</button>
             </div>
             <div id="test"></div>
         </div>
 
-        <div id="author">
+        <div class="slider-container inline" id = "del">
+            <input type="range" class="slider" min="0" max="1" step="1" value="0" oninput="handleSliderChange(this.value)">
+        </div>
+
+        <div id="author" style="display: none;">
             <br><br>
             Powered by：
             <a href="https://github.com/xianyu1orang/TCM-tools" target="_blank">
-                <img src="https://logos-world.net/wp-content/uploads/2020/11/GitHub-Logo.png" style=" width:100px; height: 60px;">
+                <img src="https://logos-world.net/wp-content/uploads/2020/11/GitHub-Logo.png"
+                    style=" width:100px; height: 60px;">
             </a>
             <a href="https://www.fjtcm.edu.cn/" target="_blank">
-                <img src="https://s3.bmp.ovh/imgs/2024/03/05/22f8a74f2060e7b3.jpg"  style=" width:100px; height: 60px;">
+                <img src="https://s3.bmp.ovh/imgs/2024/03/05/22f8a74f2060e7b3.jpg" style=" width:100px; height: 60px;">
             </a>
             <br>
             <a href="https://layui.dev/" target="_blank">
-                <img src="https://img2.imgtp.com/2024/03/05/17U1JLOt.webp"  style=" width:250px; height: 60px;">
+                <img src="https://img2.imgtp.com/2024/03/05/17U1JLOt.webp" style=" width:250px; height: 60px;">
             </a>
-            
+
             <br><br>
         </div>
 
