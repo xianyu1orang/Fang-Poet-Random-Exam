@@ -7,7 +7,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>随机方检查</title>
         <link rel="stylesheet" href="./style.css">
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/layui/2.9.7/css/layui.css" rel="stylesheet"><!-- 引入 layui.css -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/layui/2.9.7/css/layui.css" rel="stylesheet">
+        <!-- 引入 layui.css -->
     </head>
 
     <body>
@@ -25,8 +26,15 @@
         </div>
 
         <div id="optionsContainer">
-            <span>方剂类型：</span>
-            <form id="myForm">
+            <button type="button" class="layui-btn layui-bg-black" style="width: 90px;" onclick="switchOn()" id = "switchFace">
+                <i class="layui-icon layui-icon-next" id = "swt"></i>
+            </button>
+            <div class="layui-btn-container" id = "treeBox" style="display: none;height: 40px;color: #f7f7f7;">
+                <button type="button" class="layui-btn layui-bg-blue" lay-on="test-page-custom" style="width: 190px; ">
+                    <i class="layui-icon  layui-icon-table layui-bg-blue" style="font-size: 50px;"></i>
+                </button>
+            </div>
+            <form id="myForm" style="display: block;">
                 <select id="optionsDropdown" multiple required>
                     <option value="all" required>所有方</option>
                 </select>
@@ -45,30 +53,32 @@
             </select>
         </div>
 
-        <div>
+        <div id="set">
             <label>
                 <input type="checkbox" id="myFir" checked>一级方
             </label>
-            <button onclick="reschange(1)" id="reslarer">+</button>
-            <button onclick="reschange(0)" id="ressmaer">-</button>
+            <button onclick="reschange(1)" id="reslarer" style="width: 30px">+</button>
+            <button onclick="reschange(0)" id="ressmaer" style="width: 30px">-</button>
+            <button type="button" class="layui-btn layui-btn-primary" lay-on="confirm">
+                <i class="layui-icon layui-icon-file"></i>
+            </button>
+            <div id="testDescrive">
+                开发者选项
+                <button onclick="showTest(0)">▼</button>
+            </div>
+            <div id="test"></div>
         </div>
-
-
-        <!-- 复选框 -->
-        <div id="testDescrive">
-            开发者选项
-            <button onclick="showTest(0)">▼</button>
-        </div>
-        <div id="test"></div>
 
         <div id="author">
             <br><br>
             Powered by：
             <a href="https://github.com/xianyu1orang/TCM-tools" target="_blank">
-                <img src="https://logos-world.net/wp-content/uploads/2020/11/GitHub-Logo.png">
-            </a><br>
-            <br>
-
+                <img src="https://logos-world.net/wp-content/uploads/2020/11/GitHub-Logo.png" style=" width:100px; height: 60px;">
+            </a>
+            <a href="https://www.fjtcm.edu.cn/" target="_blank">
+                <img src="https://s3.bmp.ovh/imgs/2024/03/05/22f8a74f2060e7b3.jpg"  style=" width:100px; height: 60px;">
+                
+            </a><br><br>
         </div>
 
         <!-- 引入 layui.js -->
