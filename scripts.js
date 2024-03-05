@@ -14,6 +14,7 @@ var memory_num = [];//记录随机方
 var show_times = 0;//显示次数
 var iniID = structure.length;
 var swtGenerate = 1;//2為舊版，1為新版
+var deltimes = 0;
 
 //初始化重点方
 for (i = 0; i < len; i++) {
@@ -82,7 +83,8 @@ ranArray.forEach(value => {
     }
 });
 
-
+var resultFangElement = document.getElementById('result_times');
+resultFangElement.style.fontSize = JSON.parse(localStorage.getItem('pixel_fang') ? localStorage.getItem('pixel_fang') : "40px");
 var resultFangElement = document.getElementById('result_fang');
 resultFangElement.style.fontSize = JSON.parse(localStorage.getItem('pixel_fang') ? localStorage.getItem('pixel_fang') : "40px");
 var resultPoetElement = document.getElementById('result_poet');
@@ -154,7 +156,8 @@ function getSelectedValues() {
 function words(condition) {
     if (!times) return 0;
 
-    document.getElementById("result_fang").innerHTML = "第" + show_times + "首方: <br>" + array_fang[ranSort][ranNumber];
+    document.getElementById("result_times").innerHTML = "第" + show_times + "首方: <br>";
+    document.getElementById("result_fang").innerHTML = array_fang[ranSort][ranNumber];
     var poet = document.getElementById("result_poet");
     if (condition) poet.innerHTML = (!poet.innerHTML) ? ("歌诀：<br>" + processString(array_poet[ranSort][ranNumber]) + ((array_poet[ranSort][ranNumber].charAt(array_poet[ranSort][ranNumber].length - 1) != "。") ? "。" : "")) : ""; else poet.innerHTML = "";
 }
@@ -243,11 +246,24 @@ for (let i = 0; i < array_fang.length; i++) {
 });
 
 function reschange(ask) {
+    var resultFangElement = document.getElementById('result_times');
+    localStorage.setItem('pixel_fang', JSON.stringify(resultFangElement.style.fontSize = (parseFloat(window.getComputedStyle(resultFangElement).fontSize)) + (ask ? (2) : (-2)) + "px"));
     var resultFangElement = document.getElementById('result_fang');
     localStorage.setItem('pixel_fang', JSON.stringify(resultFangElement.style.fontSize = (parseFloat(window.getComputedStyle(resultFangElement).fontSize)) + (ask ? (2) : (-2)) + "px"));
-
     var resultPoetElement = document.getElementById('result_poet');
     localStorage.setItem('pixel_poet', JSON.stringify(resultPoetElement.style.fontSize = (parseFloat(window.getComputedStyle(resultPoetElement).fontSize)) + (ask ? (2) : (-2)) + "px"));
+}
+
+function handleSliderChange(value) {alert(deltimes)
+    if((deltimes ++) == 2) localStorage.setItem('del', document.getElementById("del").style.display = "none");
+
+    if (value == 1) document.getElementById("author").style.display = "block";
+    else document.getElementById("author").style.display = "none";
+}
+
+
+if(localStorage.getItem('del') == "none"){
+    document.getElementById("del").style.display = "none"
 }
 
 function switchOn() {
@@ -258,7 +274,7 @@ function switchOn() {
 
     if (swt.className == "layui-icon layui-icon-next") {
         swt.className = 'layui-icon layui-icon-prev';
-    
+
         myForm.style.display = 'none';
         treeBox.style.display = 'block';
         swtGenerate = 2;
@@ -282,7 +298,7 @@ try {
         }
         else if (type == "section") {
             tree.setChecked("treeIt", id)
-            
+
             var inputString = JSON.stringify(tree.getChecked("treeIt")); // 将你的输入字符串赋给这个变量
             // 定義正則表達式
             var pattern = /"index":\[(\d+),(\d+)\]/g;
@@ -303,18 +319,24 @@ try {
         var util = layui.util;
         // 事件
         util.on('lay-on', {
-            confirm: function(){
+            'test-tips-right': function () {
+                layer.tips("<span style = 'text-align: center;font-Size: 40px;'>" + structure[ranSort].property[structure[ranSort].sort[ranNumber]] + "</span>", this, {
+                    tips: 2,
+                    area: ['240px', '50px']
+                });
+            },
+            'confirm': function () {
                 layer.open({
                     area: ['500px', '350px'],
                     content: `
                     <img src="https://s3.bmp.ovh/imgs/2024/03/05/5ec3351b992cb7fb.jpg" style="width:200px;height:200px">
                         `
                 })
-              },
+            },
             'test-page-custom': function () {
                 layer.open({
                     type: 1,
-                    area: ['250px', '300px'],
+                    area: ['350px', '450px'],
                     resize: false,
                     shadeClose: true,
                     title: '方劑類型選擇',
@@ -330,6 +352,7 @@ try {
                     elem: '#ID-tree-showCheckbox',
                     id: "treeIt",
                     data: listSort,
+                    onlyIconControl: true,
                     showCheckbox: true,
                     click: function (obj) {
                         treeSelected(layui.tree, "section", obj.data.id)
