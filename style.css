@@ -7,10 +7,18 @@ body {
     flex-direction: column;
 }
 
+#result_times {
+    font-size: 40px;
+    margin-top: 20px;
+    text-align: center;
+}
+
 #result_fang {
     font-size: 40px;
     margin-top: 20px;
     text-align: center;
+    cursor: pointer;
+    text-decoration: underline dotted;
 }
 
 #result_poet {
@@ -20,10 +28,9 @@ body {
 }
 
 #author {
-    font-size: 30px;
+    font-size: 35px;
     margin-top: 20px;
     text-align: center;
-    
 }
 
 #optionsContainer {
@@ -40,4 +47,54 @@ body {
 #set {
     font-size: 20px;
     text-align: center;
+}
+
+.inline {
+    display: inline-block;
+}
+
+.slider-container {
+    width: 200px;
+    margin: 20px;
+}
+
+.slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 15px;
+    border-radius: 8px;
+    background: #d3d3d3;
+    outline: none;
+    transition: background 0.3s;
+    /* 添加过渡效果 */
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #4CAF50;
+    cursor: pointer;
+    transition: background 0.3s;
+    /* 添加过渡效果 */
+}
+
+.slider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #4CAF50;
+    cursor: pointer;
+    transition: background 0.3s;
+    /* 添加过渡效果 */
+}
+
+/* 当滑块处于激活状态时，改变颜色 */
+.slider:focus,
+.slider::-webkit-slider-thumb:focus,
+.slider::-moz-range-thumb:focus {
+    background: #64c7ff;
 }
