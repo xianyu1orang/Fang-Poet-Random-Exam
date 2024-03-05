@@ -254,16 +254,17 @@ function reschange(ask) {
     localStorage.setItem('pixel_poet', JSON.stringify(resultPoetElement.style.fontSize = (parseFloat(window.getComputedStyle(resultPoetElement).fontSize)) + (ask ? (2) : (-2)) + "px"));
 }
 
-function handleSliderChange(value) {alert(deltimes)
-    if((deltimes ++) == 2) localStorage.setItem('del', document.getElementById("del").style.display = "none");
-
-    if (value == 1) document.getElementById("author").style.display = "block";
+function handleSliderChange(value) {
+    if (value == 2) document.getElementById("author").style.display = "block";
     else document.getElementById("author").style.display = "none";
+
+    if((deltimes ++) == 2) localStorage.setItem('del', document.getElementById("del").style.display = "none");
 }
 
 
 if(localStorage.getItem('del') == "none"){
-    document.getElementById("del").style.display = "none"
+    document.getElementById("del").style.display = "none";
+    document.getElementById("author").style.display = "none";
 }
 
 function switchOn() {
@@ -319,9 +320,9 @@ try {
         var util = layui.util;
         // 事件
         util.on('lay-on', {
-            'test-tips-right': function () {
+            'test-tips-bottom': function () {
                 layer.tips("<span style = 'text-align: center;font-Size: 40px;'>" + structure[ranSort].property[structure[ranSort].sort[ranNumber]] + "</span>", this, {
-                    tips: 2,
+                    tips: 3,
                     area: ['240px', '50px']
                 });
             },
