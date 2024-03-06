@@ -255,16 +255,16 @@ function reschange(ask) {
 }
 
 function handleSliderChange(value) {
-    if (value == 2) document.getElementById("author").style.display = "block";
+    if (value == 0) document.getElementById("author").style.display = "block";
     else document.getElementById("author").style.display = "none";
 
-    if((deltimes ++) == 2) localStorage.setItem('del', document.getElementById("del").style.display = "none");
+    if ((deltimes++) == 2) localStorage.setItem('del', document.getElementById("del").style.display = "none");
 }
 
 
-if(localStorage.getItem('del') == "none"){
-    document.getElementById("del").style.display = "none";
-    document.getElementById("author").style.display = "none";
+if (localStorage.getItem('del') == "none") {
+    //document.getElementById("del").style.display = "none";
+    //document.getElementById("author").style.display = "none";
 }
 
 function switchOn() {
@@ -287,6 +287,7 @@ function switchOn() {
     }
 
 }
+
 try {
     function treeSelected(tree, type, id) {
         if (type == "all") {
@@ -298,19 +299,14 @@ try {
             }
         }
         else if (type == "section") {
-            tree.setChecked("treeIt", id)
+            var inputString = JSON.stringify(tree.getChecked("treeIt"));
+            var patternIndex = /"index":\[(\d+),(\d+)\]/g;
+            var getArrayIndex = [];
 
-            var inputString = JSON.stringify(tree.getChecked("treeIt")); // 将你的输入字符串赋给这个变量
-            // 定義正則表達式
-            var pattern = /"index":\[(\d+),(\d+)\]/g;
-
-            // 初始化o變量
-            var o = [];
-
-            // 找到所有匹配的結果
             var match;
-            while (match = pattern.exec(inputString)) {
-                o.push([parseInt(match[1]), parseInt(match[2])]);
+
+            while (match = patternIndex.exec(inputString)) {
+                getArrayIndex.push([parseInt(match[1]), parseInt(match[2])]);
             }
         }
     }
@@ -343,12 +339,16 @@ try {
                     title: '方劑類型選擇',
                     content: `
                         <div style="text-align:center">    
-                            <button class="layui-btn layui-btn-primary layui-btn-radius" onclick = "alert(switchOn())">所有方</button>
+                            <button class="layui-btn layui-btn-primary layui-btn-radius" onclick = "alert(tree.qxChecked('treeIt'));">所有方</button>
                             <button class="layui-btn layui-btn-primary layui-btn-radius" onclick = "alert()">一級方</button>
                         </div>
                         <div id="ID-tree-showCheckbox"  style="font-size:25px"></div>
                         `
                 })
+                layui.tree.qxChecked = function(id){
+                    var that = thisModule.that[id];
+                    return that.qxChecked();
+                };
                 layui.tree.render({
                     elem: '#ID-tree-showCheckbox',
                     id: "treeIt",
@@ -356,6 +356,17 @@ try {
                     onlyIconControl: true,
                     showCheckbox: true,
                     click: function (obj) {
+                        var classStr = 'layui-unselect layui-form-checkbox layui-form-checked';
+                        //通过 样式名 定位当前节点元素
+                        var checkbox = obj.elem.find('.layui-form-checkbox');
+                        var classNameStr = checkbox[0].className;		//获取当前节点样式（className）
+
+                        //判断 当前节点样式 是否包含 选中(勾选样式) 并执行 下一步操作
+                        if (classNameStr === classStr) {
+                            checkbox.removeClass('layui-form-checked');			//删除 勾选样式
+                        } else {
+                            checkbox.addClass('layui-form-checked');					//添加 勾选样式
+                        }
                         treeSelected(layui.tree, "section", obj.data.id)
                     },
                     oncheck: function (obj) {
