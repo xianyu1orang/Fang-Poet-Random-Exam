@@ -7,17 +7,7 @@
 
 # 文档说明
 ## html为最终可执行文件，style为css修饰，script为可执行代码，data为剔除本体代码需载入的方剂内容
-## 当你想要添加自己的方歌时可以参考以下规则
-### function processString(inputString) {
-###    const punctuationMap = {
-###        '.': '。', ',': '，', '?': '？', '!': '！', ';': '；'
-###    };// 添加其他标点符号映射
-###
-###    const regex = /[.,?!;]/g; // 根据需要添加其他标点符号
-###    inputString = inputString.replace(regex, match => punctuationMap[match] || match);
-###    inputString = inputString.replace(/([，。；])(?!<br>)/g, "$1<br>");
-###    return inputString;
-### }
-### 以上正则表达式的意思是首先将英文符号转化为中文，继而为每一个符号添加换行
+## 闲话
+### layui真的挺难用的，一开始带着天真的想法随便做点像样的东西，结果为了实现更到位的数据交互自己手撸了更多的代码，实际上chatgpt也没有帮我提高多少效率（，把剩下的烂摊子搞完之后应该就会去学vue了
 
 
