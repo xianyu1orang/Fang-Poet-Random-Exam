@@ -15,6 +15,7 @@ var show_times = 0;//显示次数
 var iniID = structure.length;
 var swtGenerate = 1;//2為舊版，1為新版
 var deltimes = 0;
+var getArrayIndex = [];
 
 //初始化重点方
 for (i = 0; i < len; i++) {
@@ -179,6 +180,12 @@ function generateFang(innum, insort) {
     ranSort = (insort < 0) ? lim_array[lim_times] : insort;
     ranNumber = (innum < 0) ? Math.floor(Math.random() * (fir ? first[ranSort] : array_fang[ranSort].length)) : innum;
 
+    if (swtGenerate == 2) {
+        var ran = Math.floor(Math.random() * getArrayIndex.length);
+        ranSort = getArrayIndex[ran][0];
+        ranNumber = getArrayIndex[ran][1];
+    }
+
     memory_sort[times + 1] = ranSort;
     memory_num[times + 1] = ranNumber;
     times++; show_times = times;
@@ -289,6 +296,18 @@ function switchOn() {
 }
 
 try {
+    function getArrIndex(tree) {
+        var inputString = JSON.stringify(tree.getChecked("treeIt"));
+        var patternIndex = /"index":\[(\d+),(\d+)\]/g;
+        getArrayIndex = []
+
+        var match;
+
+        while (match = patternIndex.exec(inputString)) {
+            getArrayIndex.push([parseInt(match[1]), parseInt(match[2])]);
+        }
+    }
+
     function treeSelected(tree, type, id) {
         if (type == "all") {
             alert()
@@ -299,15 +318,7 @@ try {
             }
         }
         else if (type == "section") {
-            var inputString = JSON.stringify(tree.getChecked("treeIt"));
-            var patternIndex = /"index":\[(\d+),(\d+)\]/g;
-            var getArrayIndex = [];
-
-            var match;
-
-            while (match = patternIndex.exec(inputString)) {
-                getArrayIndex.push([parseInt(match[1]), parseInt(match[2])]);
-            }
+            getArrIndex(tree)
         }
     }
 
@@ -345,7 +356,7 @@ try {
                         <div id="ID-tree-showCheckbox"  style="font-size:25px"></div>
                         `
                 })
-                layui.tree.qxChecked = function(id){
+                layui.tree.qxChecked = function (id) {
                     var that = thisModule.that[id];
                     return that.qxChecked();
                 };
@@ -373,6 +384,7 @@ try {
                         const blob = new Blob([JSON.stringify(structure)], {
                             type: "text/plain",
                         });
+                        getArrIndex(layui.tree);
 
                         // 使用 Clipboard API 將 Blob 對象複製到剪切板
                         //navigator.clipboard.write([new ClipboardItem({ "text/plain": blob })]);
