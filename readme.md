@@ -1,7 +1,7 @@
 ﻿#
 
 # 网页链接
-## https://xianyu1orang.github.io/TCM-tools/
+## [https://xianyu1orang.github.io/TCM-tools/](https://xianyu1orang.github.io/Fang-Poet-Random-Exam/)
 # 方剂范围
 ## 本方范围取自中国大陆中医药院校的教科书，其中方歌部分经本人改编
 
