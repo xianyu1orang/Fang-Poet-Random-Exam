@@ -1,4 +1,3 @@
-
 const len = document.getElementById('optionsDropdown').options.length - 1;//有几个选项
 var times = 0;
 var ranSort = 0;//种类随机
@@ -16,6 +15,8 @@ var iniID = structure.length;
 var swtGenerate = 1;//2為舊版，1為新版
 var deltimes = 0;
 var getArrayIndex = [];
+var src_fang = null;//百科引用链接
+
 
 //初始化重点方
 for (i = 0; i < len; i++) {
@@ -86,7 +87,7 @@ ranArray.forEach(value => {
 
 var resultFangElement = document.getElementById('result_times');
 resultFangElement.style.fontSize = JSON.parse(localStorage.getItem('pixel_fang') ? localStorage.getItem('pixel_fang') : "40px");
-var resultFangElement = document.getElementById('result_fang');
+resultFangElement = document.getElementById('result_fang');
 resultFangElement.style.fontSize = JSON.parse(localStorage.getItem('pixel_fang') ? localStorage.getItem('pixel_fang') : "40px");
 var resultPoetElement = document.getElementById('result_poet');
 resultPoetElement.style.fontSize = JSON.parse(localStorage.getItem('pixel_poet') ? localStorage.getItem('pixel_poet') : "35px");
@@ -159,6 +160,7 @@ function words(condition) {
 
     document.getElementById("result_times").innerHTML = "第" + show_times + "首方: <br>";
     document.getElementById("result_fang").innerHTML = array_fang[ranSort][ranNumber];
+    src_fang = array_fang[ranSort][ranNumber];//百科链接赋值
     var poet = document.getElementById("result_poet");
     if (condition) poet.innerHTML = (!poet.innerHTML) ? ("歌诀：<br>" + processString(array_poet[ranSort][ranNumber]) + ((array_poet[ranSort][ranNumber].charAt(array_poet[ranSort][ranNumber].length - 1) != "。") ? "。" : "")) : ""; else poet.innerHTML = "";
 }
@@ -180,7 +182,7 @@ function generateFang(innum, insort) {
     ranSort = (insort < 0) ? lim_array[lim_times] : insort;
     ranNumber = (innum < 0) ? Math.floor(Math.random() * (fir ? first[ranSort] : array_fang[ranSort].length)) : innum;
 
-    if (swtGenerate == 2) {
+    if (swtGenerate == 2) {//新版界面
         var ran = Math.floor(Math.random() * getArrayIndex.length);
         ranSort = getArrayIndex[ran][0];
         ranNumber = getArrayIndex[ran][1];
@@ -189,6 +191,7 @@ function generateFang(innum, insort) {
     memory_sort[times + 1] = ranSort;
     memory_num[times + 1] = ranNumber;
     times++; show_times = times;
+    src_fang = array_fang[ranSort][ranNumber];
     addHis(); addFang();
 
     localStorage.removeItem('ranArr');
@@ -270,12 +273,11 @@ function handleSliderChange(value) {
 
 
 if (localStorage.getItem('del') == "none") {
-    //document.getElementById("del").style.display = "none";
-    //document.getElementById("author").style.display = "none";
+    document.getElementById("del").style.display = "none";
+    document.getElementById("author").style.display = "none";
 }
 
 function switchOn() {
-
     var swt = document.getElementById("swt");
     var myForm = document.getElementById('myForm');
     var treeBox = document.getElementById('treeBox');
@@ -299,6 +301,7 @@ try {
     function getArrIndex(tree) {
         var inputString = JSON.stringify(tree.getChecked("treeIt"));
         var patternIndex = /"index":\[(\d+),(\d+)\]/g;
+        var patternId = /"id":(\d+)/g;
         getArrayIndex = []
 
         var match;
@@ -306,6 +309,13 @@ try {
         while (match = patternIndex.exec(inputString)) {
             getArrayIndex.push([parseInt(match[1]), parseInt(match[2])]);
         }
+        var matches = inputString.match(patternId);
+
+        while ((match = patternId.exec(inputString)) !== null) {
+            matches.push(match[1]);
+        } alert(matches)
+        localStorage.removeItem("ArrayId");
+        localStorage.setItem("ArrayId", matches);
     }
 
     function treeSelected(tree, type, id) {
@@ -318,10 +328,12 @@ try {
             }
         }
         else if (type == "section") {
-            getArrIndex(tree)
+
         }
     }
 
+
+    
     layui.use(function () {
         var layer = layui.layer;
         var util = layui.util;
@@ -341,6 +353,24 @@ try {
                         `
                 })
             },
+            'BaiduPediaIframe': function () {
+                layer.open({
+                    type: 1,
+                    title: false, // 不显示标题栏
+                    closeBtn: 0,
+                    shadeClose: true, // 点击遮罩关闭层
+                    success: function () {
+                        var iframe = document.getElementById("iframeBai");
+                        // iframe.onload = function() {
+                        //     // 设置iframe的userAgent
+                        //     iframe.contentWindow.navigator.userAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS 14_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148";
+                        // };
+                        iframe.src = "https://baike.baidu.com/item/" + src_fang;
+                    },
+                    content: '<iframe id = "iframeBai" width="600" height="600"></iframe>'
+                });
+
+            },
             'test-page-custom': function () {
                 layer.open({
                     type: 1,
@@ -351,7 +381,7 @@ try {
                     content: `
                         <div style="text-align:center">    
                             <button class="layui-btn layui-btn-primary layui-btn-radius" onclick = "alert(tree.qxChecked('treeIt'));">所有方</button>
-                            <button class="layui-btn layui-btn-primary layui-btn-radius" onclick = "alert()">一級方</button>
+                            <button class="layui-btn layui-btn-primary layui-btn-radius" onclick = "alert(localStorage.getItem('ArrayId'));tree.setChecked('treeIt',localStorage.getItem('ArrayId'))">一級方</button>
                         </div>
                         <div id="ID-tree-showCheckbox"  style="font-size:25px"></div>
                         `
@@ -378,7 +408,7 @@ try {
                         } else {
                             checkbox.addClass('layui-form-checked');					//添加 勾选样式
                         }
-                        treeSelected(layui.tree, "section", obj.data.id)
+                        getArrIndex(layui.tree)
                     },
                     oncheck: function (obj) {
                         const blob = new Blob([JSON.stringify(structure)], {
@@ -395,5 +425,5 @@ try {
 
             }
         })
-    })
+    });
 } catch (err) { alert(err) };
