@@ -13,7 +13,7 @@
 
     <body>
         <div id="result_times"></div>
-        <div id="result_fang" lay-on="test-tips-bottom"></div>
+        <div id="result_fang" lay-on="tips-bottom"></div>
         <div id="result_poet"></div>
         <button onclick="generateFang(-1,-1)" style="width: 150px; height: 60px;font-size: 25px;">生成方</button>
         <br>
@@ -31,7 +31,7 @@
                 <i class="layui-icon layui-icon-next" id="swt"></i>
             </button>
             <div class="layui-btn-container" id="treeBox" style="display: none;height: 40px;color: #f7f7f7;">
-                <button type="button" class="layui-btn layui-bg-blue" lay-on="test-page-custom" style="width: 190px; ">
+                <button type="button" class="layui-btn layui-bg-blue" lay-on="page-custom" style="width: 190px; ">
                     <i class="layui-icon  layui-icon-table layui-bg-blue" style="font-size: 50px;"></i>
                 </button>
             </div>
@@ -60,15 +60,17 @@
             </label>
             <button onclick="reschange(1)" id="reslarer" style="width: 30px">+</button>
             <button onclick="reschange(0)" id="ressmaer" style="width: 30px">-</button>
-            <!-- <button type="button" class="layui-btn layui-btn-primary" lay-on="confirm">
-                <i class="layui-icon layui-icon-file"></i>
-            </button> -->
-
             <div class="layui-btn-container" style="font-size: 20px;">
                 <button class="layui-btn demo-dropdown-base" lay-options="{align: 'center'}">
                     <i class="layui-icon layui-icon-file layui-font-20"></i>
                   </button>
             </div>
+            <!-- <button type="button" class="layui-btn layui-btn-primary" lay-on="confirm">
+                <i class="layui-icon layui-icon-file"></i>
+            </button> -->
+        </div>
+
+            
 
             <div id="testDescrive" style="display: none;">
                 开发者选项
