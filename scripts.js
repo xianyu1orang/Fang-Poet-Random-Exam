@@ -1,4 +1,4 @@
-const len = document.getElementById('optionsDropdown').options.length - 1;//有几个选项
+try{const len = document.getElementById('optionsDropdown').options.length - 1;//有几个选项
 var times = 0;
 var ranSort = 0;//种类随机
 var ranNumber = 0;//数字随机
@@ -37,7 +37,7 @@ for (var i = 0; i < structure.length; i++) {//一级类型注入 structure.lengt
         for (var j = 0; j < structure[i].property.length; j++) {//二级类型注入 
             listSort[i].children.push(JSON.parse('{"title": "' + structure[i].property[j] + '", "id": ' + (iniID++) + ', "children":[]}'));
         }
-        for (var k = 0; k < array_fang[i].length && i < structure.length - 1; k++) {//三级类型注入 array_fang[i].length
+        for (var k = 0; k < array_fang[i].length && i < structure.length; k++) {//三级类型注入 array_fang[i].length
             listSort[i].children[structure[i].sort[k]].children.push(JSON.parse('{"title": "' + array_fang[i][k] + '", "id": ' + (iniID++) + ',"index":[' + i + "," + k + ']}'));
         }
     }
@@ -313,17 +313,15 @@ try {
 
         while ((match = patternId.exec(inputString)) !== null) {
             matches.push(match[1]);
-        } alert(matches)
+        }
         localStorage.removeItem("ArrayId");
         localStorage.setItem("ArrayId", matches);
     }
 
     function treeSelected(tree, type, id) {
         if (type == "all") {
-            alert()
             if (treeAll == false) { treeAll = true; tree.setChecked("treeIt", [0]) }
             else {
-                alert()
                 treeAll = false; tree.reload("treeIt", 0)
             }
         }
@@ -434,3 +432,8 @@ try {
         })
     });
 } catch (err) { alert(err) };
+
+
+}catch(err){
+    alert(err);
+}
