@@ -333,11 +333,36 @@ try {
     }
 
 
-    
+
     layui.use(function () {
         var layer = layui.layer;
         var util = layui.util;
-        // 事件
+
+        var dropdown = layui.dropdown;
+        // 渲染
+        dropdown.render({
+            elem: '.demo-dropdown-base', // 绑定元素选择器，此处指向 class 可同时绑定多个元素
+            data: [{
+                title: '中医百科',
+                id: "https://zhongyibaike.com/wiki/"
+            }, {
+                title: '中医方剂网',
+                id: "https://www.zhongyifangji.com/home/index/search?searchtype=prescription&searchkeyword="
+            }, {
+                title: '百度百科',
+                id: "https://baike.baidu.com/item/"
+            }],
+            click: function (obj) {
+                layer.open({type: 2,
+                    title: obj.title + "的资料查询",
+                    shadeClose: true, // 点击遮罩关闭层
+                    maxmin: true, //开启最大化最小化按钮
+                    area: ['500px', '800px'],
+                    content: obj.id + src_fang
+              });
+            }
+        });
+
         util.on('lay-on', {
             'test-tips-bottom': function () {
                 layer.tips("<span style = 'text-align: center;font-Size: 40px;'>" + structure[ranSort].property[structure[ranSort].sort[ranNumber]] + "</span>", this, {
@@ -352,24 +377,6 @@ try {
                     <img src="https://s3.bmp.ovh/imgs/2024/03/05/5ec3351b992cb7fb.jpg" style="width:200px;height:200px">
                         `
                 })
-            },
-            'BaiduPediaIframe': function () {
-                layer.open({
-                    type: 1,
-                    title: false, // 不显示标题栏
-                    closeBtn: 0,
-                    shadeClose: true, // 点击遮罩关闭层
-                    success: function () {
-                        var iframe = document.getElementById("iframeBai");
-                        // iframe.onload = function() {
-                        //     // 设置iframe的userAgent
-                        //     iframe.contentWindow.navigator.userAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS 14_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148";
-                        // };
-                        iframe.src = "https://baike.baidu.com/item/" + src_fang;
-                    },
-                    content: '<iframe id = "iframeBai" width="600" height="600"></iframe>'
-                });
-
             },
             'test-page-custom': function () {
                 layer.open({
