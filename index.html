@@ -63,9 +63,13 @@
             <!-- <button type="button" class="layui-btn layui-btn-primary" lay-on="confirm">
                 <i class="layui-icon layui-icon-file"></i>
             </button> -->
-            <button type="button" class="layui-btn layui-btn-primary" lay-on="BaiduPediaIframe" id = "BaiduPediaIframe">
-                <i class="layui-icon layui-icon-file"></i>
-            </button>
+
+            <div class="layui-btn-container" style="font-size: 20px;">
+                <button class="layui-btn demo-dropdown-base" lay-options="{align: 'center'}">
+                    <i class="layui-icon layui-icon-file layui-font-20"></i>
+                  </button>
+            </div>
+
             <div id="testDescrive" style="display: none;">
                 开发者选项
                 <button onclick="showTest(0)">▼</button>
@@ -73,8 +77,9 @@
             <div id="test"></div>
         </div>
 
-        <div class="slider-container inline" id = "del">
-            <input type="range" class="slider" min="0" max="1" step="1" value="0" oninput="handleSliderChange(this.value)">
+        <div class="slider-container inline" id="del">
+            <input type="range" class="slider" min="0" max="1" step="1" value="0"
+                oninput="handleSliderChange(this.value)">
         </div>
 
         <div id="author">
