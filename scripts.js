@@ -75,16 +75,16 @@ try {
     });
 
     //读取本地方剂类型已选项
-    ranArray = JSON.parse(localStorage.getItem('ranArr'));
-    const meSort = document.getElementById("optionsDropdown");
-    const options = meSort.options; options[0].selected = false;
-    ranArray.forEach(value => {
+    //ranArray = JSON.parse(localStorage.getItem('ranArr'));
+    //const meSort = document.getElementById("optionsDropdown");
+    //const options = meSort.options; options[0].selected = false;
+    //ranArray.forEach(value => {
         // 设置对应值的选项为选中状态
-        const option = meSort.querySelector(`[value="${value}"]`);
-        if (option) {
-            option.selected = true;
-        }
-    });
+       // const option = meSort.querySelector(`[value="${value}"]`);
+       // if (option) {
+           // option.selected = true;
+       // }
+   // });
 
     var resultFangElement = document.getElementById('result_times');
     resultFangElement.style.fontSize = JSON.parse(localStorage.getItem('pixel_fang') ? localStorage.getItem('pixel_fang') : "40px");
