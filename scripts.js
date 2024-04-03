@@ -87,11 +87,11 @@ try {
    // });
 
     var resultFangElement = document.getElementById('result_times');
-    resultFangElement.style.fontSize = JSON.parse(localStorage.getItem('pixel_fang') ? localStorage.getItem('pixel_fang') : "40px");
-    resultFangElement = document.getElementById('result_fang');
-    resultFangElement.style.fontSize = JSON.parse(localStorage.getItem('pixel_fang') ? localStorage.getItem('pixel_fang') : "40px");
+    //resultFangElement.style.fontSize = JSON.parse(localStorage.getItem('pixel_fang') ? localStorage.getItem('pixel_fang') : "40px");
+    //resultFangElement = document.getElementById('result_fang');
+    //resultFangElement.style.fontSize = JSON.parse(localStorage.getItem('pixel_fang') ? localStorage.getItem('pixel_fang') : "40px");
     var resultPoetElement = document.getElementById('result_poet');
-    resultPoetElement.style.fontSize = JSON.parse(localStorage.getItem('pixel_poet') ? localStorage.getItem('pixel_poet') : "35px");
+    //resultPoetElement.style.fontSize = JSON.parse(localStorage.getItem('pixel_poet') ? localStorage.getItem('pixel_poet') : "35px");
 
     function addHis() {//新增历史方歌
         // 获取菜单元素
