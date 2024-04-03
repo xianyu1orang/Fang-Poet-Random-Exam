@@ -61,37 +61,40 @@ try {
     var fir = false;
 
     // 检查本地存储是否有保存的状态
-    //const savedCheckboxState = localStorage.getItem('State');
+    try{const savedCheckboxState = localStorage.getItem('State');
     // 如果有保存的状态，则设置复选框的状态
-  //  if (savedCheckboxState) {
-   //     document.getElementById('myFir').checked = savedCheckboxState === 'true';
-    //    fir = JSON.parse(localStorage.getItem('State'));
-   // }
-    //checkboxFir.addEventListener('change', function () {
-   //     // 记录是否为一级方
-    //    fir = this.checked;
-    //    localStorage.setItem('State', JSON.stringify(this.checked));
-//        addFang();
-   // });
+   if (savedCheckboxState) {
+       document.getElementById('myFir').checked = savedCheckboxState === 'true';
+       fir = JSON.parse(localStorage.getItem('State'));
+   }
+    checkboxFir.addEventListener('change', function () {
+       // 记录是否为一级方
+       fir = this.checked;
+       localStorage.setItem('State', JSON.stringify(this.checked));
+       addFang();
+   });
+
 
     //读取本地方剂类型已选项
-    //ranArray = JSON.parse(localStorage.getItem('ranArr'));
-    //const meSort = document.getElementById("optionsDropdown");
-    //const options = meSort.options; options[0].selected = false;
-    //ranArray.forEach(value => {
+    ranArray = JSON.parse(localStorage.getItem('ranArr'));
+    const meSort = document.getElementById("optionsDropdown");
+    const options = meSort.options; options[0].selected = false;
+    ranArray.forEach(value => {
         // 设置对应值的选项为选中状态
-       // const option = meSort.querySelector(`[value="${value}"]`);
-       // if (option) {
-           // option.selected = true;
-       // }
-   // });
-
+       const option = meSort.querySelector(`[value="${value}"]`);
+       if (option) {
+           option.selected = true;
+       }
+   });
     var resultFangElement = document.getElementById('result_times');
-    //resultFangElement.style.fontSize = JSON.parse(localStorage.getItem('pixel_fang') ? localStorage.getItem('pixel_fang') : "40px");
-    //resultFangElement = document.getElementById('result_fang');
-    //resultFangElement.style.fontSize = JSON.parse(localStorage.getItem('pixel_fang') ? localStorage.getItem('pixel_fang') : "40px");
+    resultFangElement.style.fontSize = JSON.parse(localStorage.getItem('pixel_fang') ? localStorage.getItem('pixel_fang') : "40px");
+    resultFangElement = document.getElementById('result_fang');
+    resultFangElement.style.fontSize = JSON.parse(localStorage.getItem('pixel_fang') ? localStorage.getItem('pixel_fang') : "40px");
     var resultPoetElement = document.getElementById('result_poet');
-    //resultPoetElement.style.fontSize = JSON.parse(localStorage.getItem('pixel_poet') ? localStorage.getItem('pixel_poet') : "35px");
+    resultPoetElement.style.fontSize = JSON.parse(localStorage.getItem('pixel_poet') ? localStorage.getItem('pixel_poet') : "35px");
+    
+}
+catch(err){}
 
     function addHis() {//新增历史方歌
         // 获取菜单元素
