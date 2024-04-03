@@ -61,18 +61,18 @@ try {
     var fir = false;
 
     // 检查本地存储是否有保存的状态
-    const savedCheckboxState = localStorage.getItem('State');
+    //const savedCheckboxState = localStorage.getItem('State');
     // 如果有保存的状态，则设置复选框的状态
-    if (savedCheckboxState) {
-        document.getElementById('myFir').checked = savedCheckboxState === 'true';
-        fir = JSON.parse(localStorage.getItem('State'));
-    }
-    checkboxFir.addEventListener('change', function () {
-        // 记录是否为一级方
-        fir = this.checked;
-        localStorage.setItem('State', JSON.stringify(this.checked));
-        addFang();
-    });
+  //  if (savedCheckboxState) {
+   //     document.getElementById('myFir').checked = savedCheckboxState === 'true';
+    //    fir = JSON.parse(localStorage.getItem('State'));
+   // }
+    //checkboxFir.addEventListener('change', function () {
+   //     // 记录是否为一级方
+    //    fir = this.checked;
+    //    localStorage.setItem('State', JSON.stringify(this.checked));
+//        addFang();
+   // });
 
     //读取本地方剂类型已选项
     //ranArray = JSON.parse(localStorage.getItem('ranArr'));
